@@ -294,11 +294,32 @@ _CATKIN_GTEST_SRC:FILEPATH=/usr/src/gtest/src/gtest.cc
 //Path to a file.
 _file_name:FILEPATH=/home/pi/luko/luko_ws/src/rosserial/rosserial_test/test/rosserial_python_socket.test
 
+//Value Computed by CMake
+actionlib_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/actionlib_msgs
+
+//The directory containing a CMake configuration file for actionlib_msgs.
+actionlib_msgs_DIR:PATH=/home/pi/luko/luko_ws/devel/share/actionlib_msgs/cmake
+
+//Value Computed by CMake
+actionlib_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/actionlib_msgs
+
 //The directory containing a CMake configuration file for catkin.
 catkin_DIR:PATH=/opt/ros/kinetic/share/catkin/cmake
 
+//Value Computed by CMake
+common_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/common_msgs
+
+//Value Computed by CMake
+common_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/common_msgs
+
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/kinetic/share/cpp_common/cmake
+
+//Value Computed by CMake
+diagnostic_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/diagnostic_msgs
+
+//Value Computed by CMake
+diagnostic_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/diagnostic_msgs
 
 //The directory containing a CMake configuration file for gencpp.
 gencpp_DIR:PATH=/opt/ros/kinetic/share/gencpp/cmake
@@ -317,6 +338,15 @@ gennodejs_DIR:PATH=/opt/ros/kinetic/share/gennodejs/cmake
 
 //The directory containing a CMake configuration file for genpy.
 genpy_DIR:PATH=/opt/ros/kinetic/share/genpy/cmake
+
+//Value Computed by CMake
+geometry_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/geometry_msgs
+
+//The directory containing a CMake configuration file for geometry_msgs.
+geometry_msgs_DIR:PATH=/home/pi/luko/luko_ws/devel/share/geometry_msgs/cmake
+
+//Value Computed by CMake
+geometry_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/geometry_msgs
 
 //Value Computed by CMake
 gtest_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/gtest
@@ -351,6 +381,12 @@ message_generation_DIR:PATH=/opt/ros/kinetic/share/message_generation/cmake
 
 //The directory containing a CMake configuration file for message_runtime.
 message_runtime_DIR:PATH=/opt/ros/kinetic/share/message_runtime/cmake
+
+//Value Computed by CMake
+nav_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/nav_msgs
+
+//Value Computed by CMake
+nav_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/nav_msgs
 
 //The directory containing a CMake configuration file for rosconsole.
 rosconsole_DIR:PATH=/opt/ros/kinetic/share/rosconsole/cmake
@@ -457,11 +493,44 @@ rostest_DIR:PATH=/opt/ros/kinetic/share/rostest/cmake
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/kinetic/share/rostime/cmake
 
+//Value Computed by CMake
+sensor_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/sensor_msgs
+
+//The directory containing a CMake configuration file for sensor_msgs.
+sensor_msgs_DIR:PATH=/home/pi/luko/luko_ws/devel/share/sensor_msgs/cmake
+
+//Value Computed by CMake
+sensor_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/sensor_msgs
+
+//Value Computed by CMake
+shape_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/shape_msgs
+
+//Value Computed by CMake
+shape_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/shape_msgs
+
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/kinetic/share/std_msgs/cmake
 
+//Value Computed by CMake
+stereo_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/stereo_msgs
+
+//Value Computed by CMake
+stereo_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/stereo_msgs
+
 //The directory containing a CMake configuration file for topic_tools.
 topic_tools_DIR:PATH=/opt/ros/kinetic/share/topic_tools/cmake
+
+//Value Computed by CMake
+trajectory_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/trajectory_msgs
+
+//Value Computed by CMake
+trajectory_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/trajectory_msgs
+
+//Value Computed by CMake
+visualization_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/visualization_msgs
+
+//Value Computed by CMake
+visualization_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/visualization_msgs
 
 //The directory containing a CMake configuration file for xmlrpcpp.
 xmlrpcpp_DIR:PATH=/opt/ros/kinetic/share/xmlrpcpp/cmake
@@ -596,7 +665,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=14
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=25
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
