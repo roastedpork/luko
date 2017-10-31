@@ -1,8 +1,0 @@
-prefix=/home/pi/luko/luko_ws/install
-
-Name: rosserial_xbee
-Description: Description of rosserial_xbee
-Version: 0.7.6
-Cflags: 
-Libs: -L/home/pi/luko/luko_ws/install/lib 
-Requires: 

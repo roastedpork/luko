@@ -1,8 +1,0 @@
-prefix=/home/pi/luko/luko_ws/install
-
-Name: rosserial_server
-Description: Description of rosserial_server
-Version: 0.7.6
-Cflags: -I/home/pi/luko/luko_ws/install/include
-Libs: -L/home/pi/luko/luko_ws/install/lib 
-Requires: roscpp rosserial_msgs topic_tools
