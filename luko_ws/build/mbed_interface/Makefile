@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/pi/luko/luko_ws/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,17 +66,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-
-.PHONY : install/strip/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -133,6 +111,28 @@ install/local/fast: install/local
 
 .PHONY : install/local/fast
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+
+.PHONY : install/strip/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/pi/luko/luko_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/luko/luko_ws/build/CMakeFiles /home/pi/luko/luko_ws/build/mbed_interface/CMakeFiles/progress.marks
@@ -165,19 +165,371 @@ depend:
 	cd /home/pi/luko/luko_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_cpp: mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_cpp
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_cpp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+.PHONY : rosgraph_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+.PHONY : mbed_interface/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_nodejs: mbed_interface/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+
+.PHONY : roscpp_generate_messages_nodejs
+
+# fast build rule for target.
+roscpp_generate_messages_nodejs/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make mbed_interface/CMakeFiles/roscpp_generate_messages_nodejs.dir/build
+.PHONY : roscpp_generate_messages_nodejs/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+.PHONY : mbed_interface/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_eus: mbed_interface/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+.PHONY : roscpp_generate_messages_eus
+
+# fast build rule for target.
+roscpp_generate_messages_eus/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/roscpp_generate_messages_eus.dir/build.make mbed_interface/CMakeFiles/roscpp_generate_messages_eus.dir/build
+.PHONY : roscpp_generate_messages_eus/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_generate_messages_lisp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_generate_messages_lisp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+mbed_interface_generate_messages_lisp: mbed_interface/CMakeFiles/mbed_interface_generate_messages_lisp.dir/rule
+
+.PHONY : mbed_interface_generate_messages_lisp
+
+# fast build rule for target.
+mbed_interface_generate_messages_lisp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_generate_messages_lisp.dir/build.make mbed_interface/CMakeFiles/mbed_interface_generate_messages_lisp.dir/build
+.PHONY : mbed_interface_generate_messages_lisp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_geneus.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_geneus.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_geneus.dir/rule
+
+# Convenience name for target.
+mbed_interface_geneus: mbed_interface/CMakeFiles/mbed_interface_geneus.dir/rule
+
+.PHONY : mbed_interface_geneus
+
+# fast build rule for target.
+mbed_interface_geneus/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_geneus.dir/build.make mbed_interface/CMakeFiles/mbed_interface_geneus.dir/build
+.PHONY : mbed_interface_geneus/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+.PHONY : mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_py: mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_py
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_py/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+.PHONY : rosgraph_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/roscpp_generate_messages_py.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/roscpp_generate_messages_py.dir/rule
+.PHONY : mbed_interface/CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_py: mbed_interface/CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+.PHONY : roscpp_generate_messages_py
+
+# fast build rule for target.
+roscpp_generate_messages_py/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/roscpp_generate_messages_py.dir/build.make mbed_interface/CMakeFiles/roscpp_generate_messages_py.dir/build
+.PHONY : roscpp_generate_messages_py/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_generate_messages.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_generate_messages.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_generate_messages.dir/rule
+
+# Convenience name for target.
+mbed_interface_generate_messages: mbed_interface/CMakeFiles/mbed_interface_generate_messages.dir/rule
+
+.PHONY : mbed_interface_generate_messages
+
+# fast build rule for target.
+mbed_interface_generate_messages/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_generate_messages.dir/build.make mbed_interface/CMakeFiles/mbed_interface_generate_messages.dir/build
+.PHONY : mbed_interface_generate_messages/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/_mbed_interface_generate_messages_check_deps_JointAngles.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/_mbed_interface_generate_messages_check_deps_JointAngles.dir/rule
+.PHONY : mbed_interface/CMakeFiles/_mbed_interface_generate_messages_check_deps_JointAngles.dir/rule
+
+# Convenience name for target.
+_mbed_interface_generate_messages_check_deps_JointAngles: mbed_interface/CMakeFiles/_mbed_interface_generate_messages_check_deps_JointAngles.dir/rule
+
+.PHONY : _mbed_interface_generate_messages_check_deps_JointAngles
+
+# fast build rule for target.
+_mbed_interface_generate_messages_check_deps_JointAngles/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/_mbed_interface_generate_messages_check_deps_JointAngles.dir/build.make mbed_interface/CMakeFiles/_mbed_interface_generate_messages_check_deps_JointAngles.dir/build
+.PHONY : _mbed_interface_generate_messages_check_deps_JointAngles/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_generate_messages_nodejs.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_generate_messages_nodejs.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+mbed_interface_generate_messages_nodejs: mbed_interface/CMakeFiles/mbed_interface_generate_messages_nodejs.dir/rule
+
+.PHONY : mbed_interface_generate_messages_nodejs
+
+# fast build rule for target.
+mbed_interface_generate_messages_nodejs/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_generate_messages_nodejs.dir/build.make mbed_interface/CMakeFiles/mbed_interface_generate_messages_nodejs.dir/build
+.PHONY : mbed_interface_generate_messages_nodejs/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_cpp: mbed_interface/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+.PHONY : roscpp_generate_messages_cpp
+
+# fast build rule for target.
+roscpp_generate_messages_cpp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make mbed_interface/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+.PHONY : roscpp_generate_messages_cpp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_generate_messages_cpp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_generate_messages_cpp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+mbed_interface_generate_messages_cpp: mbed_interface/CMakeFiles/mbed_interface_generate_messages_cpp.dir/rule
+
+.PHONY : mbed_interface_generate_messages_cpp
+
+# fast build rule for target.
+mbed_interface_generate_messages_cpp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_generate_messages_cpp.dir/build.make mbed_interface/CMakeFiles/mbed_interface_generate_messages_cpp.dir/build
+.PHONY : mbed_interface_generate_messages_cpp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_gennodejs.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_gennodejs.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_gennodejs.dir/rule
+
+# Convenience name for target.
+mbed_interface_gennodejs: mbed_interface/CMakeFiles/mbed_interface_gennodejs.dir/rule
+
+.PHONY : mbed_interface_gennodejs
+
+# fast build rule for target.
+mbed_interface_gennodejs/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_gennodejs.dir/build.make mbed_interface/CMakeFiles/mbed_interface_gennodejs.dir/build
+.PHONY : mbed_interface_gennodejs/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_gencpp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_gencpp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_gencpp.dir/rule
+
+# Convenience name for target.
+mbed_interface_gencpp: mbed_interface/CMakeFiles/mbed_interface_gencpp.dir/rule
+
+.PHONY : mbed_interface_gencpp
+
+# fast build rule for target.
+mbed_interface_gencpp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_gencpp.dir/build.make mbed_interface/CMakeFiles/mbed_interface_gencpp.dir/build
+.PHONY : mbed_interface_gencpp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_generate_messages_eus.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_generate_messages_eus.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+mbed_interface_generate_messages_eus: mbed_interface/CMakeFiles/mbed_interface_generate_messages_eus.dir/rule
+
+.PHONY : mbed_interface_generate_messages_eus
+
+# fast build rule for target.
+mbed_interface_generate_messages_eus/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_generate_messages_eus.dir/build.make mbed_interface/CMakeFiles/mbed_interface_generate_messages_eus.dir/build
+.PHONY : mbed_interface_generate_messages_eus/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_lisp: mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_lisp
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_lisp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
+.PHONY : rosgraph_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_genlisp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_genlisp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_genlisp.dir/rule
+
+# Convenience name for target.
+mbed_interface_genlisp: mbed_interface/CMakeFiles/mbed_interface_genlisp.dir/rule
+
+.PHONY : mbed_interface_genlisp
+
+# fast build rule for target.
+mbed_interface_genlisp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_genlisp.dir/build.make mbed_interface/CMakeFiles/mbed_interface_genlisp.dir/build
+.PHONY : mbed_interface_genlisp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+.PHONY : mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_nodejs: mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_nodejs/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
+.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_generate_messages_py.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_generate_messages_py.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_generate_messages_py.dir/rule
+
+# Convenience name for target.
+mbed_interface_generate_messages_py: mbed_interface/CMakeFiles/mbed_interface_generate_messages_py.dir/rule
+
+.PHONY : mbed_interface_generate_messages_py
+
+# fast build rule for target.
+mbed_interface_generate_messages_py/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_generate_messages_py.dir/build.make mbed_interface/CMakeFiles/mbed_interface_generate_messages_py.dir/build
+.PHONY : mbed_interface_generate_messages_py/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+.PHONY : mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_eus: mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_eus/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make mbed_interface/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+.PHONY : rosgraph_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+.PHONY : mbed_interface/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_lisp: mbed_interface/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+
+.PHONY : roscpp_generate_messages_lisp
+
+# fast build rule for target.
+roscpp_generate_messages_lisp/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make mbed_interface/CMakeFiles/roscpp_generate_messages_lisp.dir/build
+.PHONY : roscpp_generate_messages_lisp/fast
+
+# Convenience name for target.
+mbed_interface/CMakeFiles/mbed_interface_genpy.dir/rule:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f CMakeFiles/Makefile2 mbed_interface/CMakeFiles/mbed_interface_genpy.dir/rule
+.PHONY : mbed_interface/CMakeFiles/mbed_interface_genpy.dir/rule
+
+# Convenience name for target.
+mbed_interface_genpy: mbed_interface/CMakeFiles/mbed_interface_genpy.dir/rule
+
+.PHONY : mbed_interface_genpy
+
+# fast build rule for target.
+mbed_interface_genpy/fast:
+	cd /home/pi/luko/luko_ws/build && $(MAKE) -f mbed_interface/CMakeFiles/mbed_interface_genpy.dir/build.make mbed_interface/CMakeFiles/mbed_interface_genpy.dir/build
+.PHONY : mbed_interface_genpy/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... test"
 	@echo "... edit_cache"
-	@echo "... install/strip"
 	@echo "... rebuild_cache"
 	@echo "... list_install_components"
 	@echo "... install"
 	@echo "... install/local"
+	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... roscpp_generate_messages_nodejs"
+	@echo "... roscpp_generate_messages_eus"
+	@echo "... install/strip"
+	@echo "... mbed_interface_generate_messages_lisp"
+	@echo "... mbed_interface_geneus"
+	@echo "... rosgraph_msgs_generate_messages_py"
+	@echo "... roscpp_generate_messages_py"
+	@echo "... mbed_interface_generate_messages"
+	@echo "... test"
+	@echo "... _mbed_interface_generate_messages_check_deps_JointAngles"
+	@echo "... mbed_interface_generate_messages_nodejs"
+	@echo "... roscpp_generate_messages_cpp"
+	@echo "... mbed_interface_generate_messages_cpp"
+	@echo "... mbed_interface_gennodejs"
+	@echo "... mbed_interface_gencpp"
+	@echo "... mbed_interface_generate_messages_eus"
+	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... mbed_interface_genlisp"
+	@echo "... rosgraph_msgs_generate_messages_nodejs"
+	@echo "... mbed_interface_generate_messages_py"
+	@echo "... rosgraph_msgs_generate_messages_eus"
+	@echo "... roscpp_generate_messages_lisp"
+	@echo "... mbed_interface_genpy"
 .PHONY : help
 
 

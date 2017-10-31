@@ -409,6 +409,9 @@ roscpp_traits_DIR:PATH=/opt/ros/kinetic/share/roscpp_traits/cmake
 //The directory containing a CMake configuration file for rosgraph_msgs.
 rosgraph_msgs_DIR:PATH=/opt/ros/kinetic/share/rosgraph_msgs/cmake
 
+//The directory containing a CMake configuration file for rospy.
+rospy_DIR:PATH=/opt/ros/kinetic/share/rospy/cmake
+
 //Value Computed by CMake
 rosserial_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial
 

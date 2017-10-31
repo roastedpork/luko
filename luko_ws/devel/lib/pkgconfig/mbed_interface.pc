@@ -3,6 +3,6 @@ prefix=/home/pi/luko/luko_ws/devel
 Name: mbed_interface
 Description: Description of mbed_interface
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/pi/luko/luko_ws/devel/include
 Libs: -L/home/pi/luko/luko_ws/devel/lib 
-Requires: 
+Requires: message_runtime

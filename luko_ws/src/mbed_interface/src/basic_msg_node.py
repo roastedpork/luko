@@ -3,11 +3,11 @@ import serial
 import sys,time
 import random
 
-hex='0123456789abcdef'
+hex = lambda x : '0'<=x<='9' or 'a'<=x<='f'
 
 def readInput(str):
 	try:
-		strip = "".join([c for c in str if c in hex])	
+		strip = "".join([c for c in str if hex(c)])	
 		res = [int(strip[2*i:2*i+2],16) for i in range(5)]
 	except:
  		res=[]

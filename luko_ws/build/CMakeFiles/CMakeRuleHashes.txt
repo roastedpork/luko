@@ -36,6 +36,7 @@ d716b846fcfa6e6bc116ac24df18b6d5 /home/pi/luko/luko_ws/devel/include/geometry_ms
 20912eea6356384745ee9c70dc01a37f /home/pi/luko/luko_ws/devel/include/geometry_msgs/Vector3Stamped.h
 d010175429460bba66797c0215f52215 /home/pi/luko/luko_ws/devel/include/geometry_msgs/Wrench.h
 a3497b34a748dea6ca810f925fd0ba8e /home/pi/luko/luko_ws/devel/include/geometry_msgs/WrenchStamped.h
+cebfab75b61c294efa570e299aece88f /home/pi/luko/luko_ws/devel/include/mbed_interface/JointAngles.h
 d2dfb0056fd6a4181325cd3f430b1161 /home/pi/luko/luko_ws/devel/include/nav_msgs/GetMap.h
 f05d189ee1e97174a461b8541eb62cb4 /home/pi/luko/luko_ws/devel/include/nav_msgs/GetMapAction.h
 ee2424a528b6c919e7e9af1a261beb20 /home/pi/luko/luko_ws/devel/include/nav_msgs/GetMapActionFeedback.h
@@ -51,15 +52,6 @@ b1188c752241c04683af9423aa94e1f7 /home/pi/luko/luko_ws/devel/include/nav_msgs/Gr
 604611f2552b05e6bb0a0603d6867131 /home/pi/luko/luko_ws/devel/include/nav_msgs/Odometry.h
 5ec91a05425d12ee18e4d39a96d1d2cc /home/pi/luko/luko_ws/devel/include/nav_msgs/Path.h
 08b1b687d31612f402a92d08e11b2f5b /home/pi/luko/luko_ws/devel/include/nav_msgs/SetMap.h
-440be6c013980391ee166ebb50390c91 /home/pi/luko/luko_ws/devel/include/rosserial_arduino/Adc.h
-968f2c46aa43de0bc1e2a86599977636 /home/pi/luko/luko_ws/devel/include/rosserial_arduino/Test.h
-0e0847ab355e409d7ccdad7bbdbda77b /home/pi/luko/luko_ws/devel/include/rosserial_mbed/Adc.h
-df8ac75db53e7eceab749a1ad1b682e4 /home/pi/luko/luko_ws/devel/include/rosserial_mbed/Test.h
-3e4566d51a746bf4b9e0f9faf046bc7f /home/pi/luko/luko_ws/devel/include/rosserial_msgs/Log.h
-d1d9bc5b200de1aeb24456b904d66296 /home/pi/luko/luko_ws/devel/include/rosserial_msgs/RequestMessageInfo.h
-4e50aa34e85abe6ef421f3eb016e93d6 /home/pi/luko/luko_ws/devel/include/rosserial_msgs/RequestParam.h
-bbfa848226bf6669372313cdf75a5c53 /home/pi/luko/luko_ws/devel/include/rosserial_msgs/RequestServiceInfo.h
-d83f8e1effa7fe7d792ed44afafa76e2 /home/pi/luko/luko_ws/devel/include/rosserial_msgs/TopicInfo.h
 cc1ec8b82698d3af1cffa41a9e1d334a /home/pi/luko/luko_ws/devel/include/sensor_msgs/BatteryState.h
 07a0dae5bb640f0d98754c8312edf636 /home/pi/luko/luko_ws/devel/include/sensor_msgs/CameraInfo.h
 4cd094f03458e100c5e97d178db53b32 /home/pi/luko/luko_ws/devel/include/sensor_msgs/ChannelFloat32.h
@@ -148,6 +140,8 @@ e5a10cbcdc5476f537b8979da6b7d29b /home/pi/luko/luko_ws/devel/lib/python2.7/dist-
 64884d52064acb82ca2bd740c4c40f9d /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/geometry_msgs/msg/_Wrench.py
 ca6fa86ec80d7fdc10e837fb80a64452 /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/geometry_msgs/msg/_WrenchStamped.py
 04c07c7392f70da4ecf9b5f1f56d4bf1 /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/geometry_msgs/msg/__init__.py
+9a50eaa7ebcc71f084591f0d560974b5 /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/mbed_interface/msg/_JointAngles.py
+ba3a434afa3282957dc5907e8a3213a5 /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/mbed_interface/msg/__init__.py
 e94509727653613540452c915ca272ab /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/nav_msgs/msg/_GetMapAction.py
 949aa7c342af52cdf2e215972b584f4d /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/nav_msgs/msg/_GetMapActionFeedback.py
 b4b8866527436c5e1e36a7036a85b48d /home/pi/luko/luko_ws/devel/lib/python2.7/dist-packages/nav_msgs/msg/_GetMapActionGoal.py
@@ -270,6 +264,7 @@ e61e068767f51b38330779f2edb35cc5 /home/pi/luko/luko_ws/devel/share/common-lisp/r
 69c4986100aee19d74efbc5a43dfe2b1 /home/pi/luko/luko_ws/devel/share/common-lisp/ros/geometry_msgs/msg/Vector3Stamped.lisp
 6111b175469c7312fa1f10b475aaec60 /home/pi/luko/luko_ws/devel/share/common-lisp/ros/geometry_msgs/msg/Wrench.lisp
 899d3bd6e729249899e375f42d9400b3 /home/pi/luko/luko_ws/devel/share/common-lisp/ros/geometry_msgs/msg/WrenchStamped.lisp
+981d035cb7191d21107a3de17e3ac8a1 /home/pi/luko/luko_ws/devel/share/common-lisp/ros/mbed_interface/msg/JointAngles.lisp
 7fc5f0d04b28c6ccdd74bb76b1f3b7c9 /home/pi/luko/luko_ws/devel/share/common-lisp/ros/nav_msgs/msg/GetMapAction.lisp
 7c187fcc15a345877601ad6263b9bef5 /home/pi/luko/luko_ws/devel/share/common-lisp/ros/nav_msgs/msg/GetMapActionFeedback.lisp
 820e294397f2306307ceb3fb624a580c /home/pi/luko/luko_ws/devel/share/common-lisp/ros/nav_msgs/msg/GetMapActionGoal.lisp
@@ -378,6 +373,7 @@ adf4d5b3060d9afe4dd54ebdf13ae8ed /home/pi/luko/luko_ws/devel/share/gennodejs/ros
 957e782e9081eb0cb8fb6c014b53cb5b /home/pi/luko/luko_ws/devel/share/gennodejs/ros/geometry_msgs/msg/Vector3Stamped.js
 264fb4c9bb1d9fe0f45d93047aea2890 /home/pi/luko/luko_ws/devel/share/gennodejs/ros/geometry_msgs/msg/Wrench.js
 d323d0643e5f4e53064cdf36746d3f60 /home/pi/luko/luko_ws/devel/share/gennodejs/ros/geometry_msgs/msg/WrenchStamped.js
+ae9fb89a97c623a5950ab2fe80fec137 /home/pi/luko/luko_ws/devel/share/gennodejs/ros/mbed_interface/msg/JointAngles.js
 bb537b574421b5609897dd4859fc8aa4 /home/pi/luko/luko_ws/devel/share/gennodejs/ros/nav_msgs/msg/GetMapAction.js
 01abdbfc43b762289d89f21a3acc7abd /home/pi/luko/luko_ws/devel/share/gennodejs/ros/nav_msgs/msg/GetMapActionFeedback.js
 791e292a5aae61218b2b96b92196ee11 /home/pi/luko/luko_ws/devel/share/gennodejs/ros/nav_msgs/msg/GetMapActionGoal.js
@@ -489,6 +485,8 @@ ccc5b8dbb65c259297734373fcf9f3c6 /home/pi/luko/luko_ws/devel/share/roseus/ros/ge
 f38b798e8c10fbdabc6d7b59fee2208a /home/pi/luko/luko_ws/devel/share/roseus/ros/geometry_msgs/msg/Vector3Stamped.l
 6fd5651ca259fae20d93e0c510c49111 /home/pi/luko/luko_ws/devel/share/roseus/ros/geometry_msgs/msg/Wrench.l
 6d64f9edfdf61a8e973f48fe36e13ea0 /home/pi/luko/luko_ws/devel/share/roseus/ros/geometry_msgs/msg/WrenchStamped.l
+6d8b1fd0a267ad5eddccf2569b50e8d1 /home/pi/luko/luko_ws/devel/share/roseus/ros/mbed_interface/manifest.l
+4cea67cba2d7d56ea95ba2601abf6b7c /home/pi/luko/luko_ws/devel/share/roseus/ros/mbed_interface/msg/JointAngles.l
 a75da873d1040f69619a601a1e278092 /home/pi/luko/luko_ws/devel/share/roseus/ros/nav_msgs/manifest.l
 f209fdf14e68a95d8c0bafedd25d3611 /home/pi/luko/luko_ws/devel/share/roseus/ros/nav_msgs/msg/GetMapAction.l
 86ff0407a1d8071c7b5eda9dc7e39755 /home/pi/luko/luko_ws/devel/share/roseus/ros/nav_msgs/msg/GetMapActionFeedback.l
@@ -719,3 +717,9 @@ aa477096c520bf490c90de55962bde33 common_msgs/visualization_msgs/CMakeFiles/_visu
 4bf8edc5589b8e00de8044affb8aaab9 common_msgs/visualization_msgs/CMakeFiles/visualization_msgs_generate_messages_lisp
 4bf8edc5589b8e00de8044affb8aaab9 common_msgs/visualization_msgs/CMakeFiles/visualization_msgs_generate_messages_nodejs
 4bf8edc5589b8e00de8044affb8aaab9 common_msgs/visualization_msgs/CMakeFiles/visualization_msgs_generate_messages_py
+5e4a5e2c8f5962d61403b7902dceac66 mbed_interface/CMakeFiles/_mbed_interface_generate_messages_check_deps_JointAngles
+762ed6ac9918631e1b51b3f043731c16 mbed_interface/CMakeFiles/mbed_interface_generate_messages_cpp
+762ed6ac9918631e1b51b3f043731c16 mbed_interface/CMakeFiles/mbed_interface_generate_messages_eus
+762ed6ac9918631e1b51b3f043731c16 mbed_interface/CMakeFiles/mbed_interface_generate_messages_lisp
+762ed6ac9918631e1b51b3f043731c16 mbed_interface/CMakeFiles/mbed_interface_generate_messages_nodejs
+762ed6ac9918631e1b51b3f043731c16 mbed_interface/CMakeFiles/mbed_interface_generate_messages_py
