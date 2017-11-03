@@ -17,6 +17,7 @@ class mbed_interface:
             bytesize=serial.EIGHTBITS,
             timeout=1
         )
+	print "Serial Connection: "+ str(self.serial.isOpen())
 
     def readSerialIn(self,str):
         try:
@@ -27,7 +28,7 @@ class mbed_interface:
         return res
 
     def callback(self,ros_data):
-	   rospy.loginfo(" Angle:" + ", ".join([str(i) for i in data.joints]))
+	   rospy.loginfo(" Received: " + ", ".join([str(i) for i in ros_data.joints]))
            
            ### read target_angle msg from callback ###
            target = [int(round(j)) for j in ros_data.joints]
@@ -36,7 +37,7 @@ class mbed_interface:
            
            ### create current_angle msg and publish ###
            msg = JointAngles()
-           msg.joints = self.readSerialIn(ser.readline())
+           msg.joints = self.readSerialIn(self.serial.readline())
            self.pub.publish(msg)
 
 def main():
