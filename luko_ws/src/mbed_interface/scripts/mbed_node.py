@@ -22,7 +22,7 @@ class mbed_interface:
     def readSerialIn(self,str):
         try:
             strip = "".join([c for c in str if hex(c)])
-            res = [float(strip[i:i+2],16) for i in range(0,10,2)]
+            res = [int(strip[i:i+2],16) for i in range(0,10,2)]
         except:
             res = []
         return res
@@ -35,20 +35,21 @@ class mbed_interface:
            msg = '<' + ''.join([format(j,'02x') for j in target]) + '>'
            self.serial.write(msg)
            
-           ### create current_angle msg and publish ###
-           msg = JointAngles()
-           msg.joints = self.readSerialIn(self.serial.readline())
-           self.pub.publish(msg)
+    def run(self):
+        r = rospy.Rate(10)
 
-def main():
-    mbed = mbed_interface()
-    rospy.init_node('mbed_Interface', anonymous=True)
+        while not rospy.is_shutdown():
+            ### create current_angle msg and publish ###
+            readout = self.serial.readline()
 
-    try:
-        rospy.spin()
-    except rospy.ROSInterruptException:
-        pass
+            msg = JointAngles()
+            msg.joints = self.readSerialIn(self.serial.readline())
+            self.pub.publish(msg)
+	    r.sleep()
 
 
 if __name__ == '__main__':
-    main()
+    mbed = mbed_interface()
+    rospy.init_node('mbed_Interface', anonymous=True)
+
+    mbed.run()

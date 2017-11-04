@@ -78,7 +78,7 @@ int main() {
         SerialReader::io.printf("now:<%02x%02x%02x%02x%02x>\n\r",
                     cur_joints[0],cur_joints[1],cur_joints[2],
                     cur_joints[3],cur_joints[4]);
-        wait_ms(500);
+        wait_ms(100);
     }  
 
 
