@@ -128,6 +128,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/pi/luko/luko_ws/build/common_msgs/stereo_msgs/cmake_install.cmake")
   include("/home/pi/luko/luko_ws/build/common_msgs/trajectory_msgs/cmake_install.cmake")
   include("/home/pi/luko/luko_ws/build/common_msgs/visualization_msgs/cmake_install.cmake")
+  include("/home/pi/luko/luko_ws/build/led_driver/cmake_install.cmake")
 
 endif()
 

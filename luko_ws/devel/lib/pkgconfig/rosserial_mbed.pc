@@ -1,8 +1,0 @@
-prefix=/home/pi/luko/luko_ws/devel
-
-Name: rosserial_mbed
-Description: Description of rosserial_mbed
-Version: 0.7.6
-Cflags: -I/home/pi/luko/luko_ws/devel/include
-Libs: -L/home/pi/luko/luko_ws/devel/lib 
-Requires: message_runtime

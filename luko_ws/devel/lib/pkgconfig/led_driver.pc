@@ -1,0 +1,8 @@
+prefix=/home/pi/luko/luko_ws/devel
+
+Name: led_driver
+Description: Description of led_driver
+Version: 0.0.0
+Cflags: -I/home/pi/luko/luko_ws/devel/include
+Libs: -L/home/pi/luko/luko_ws/devel/lib 
+Requires: message_runtime

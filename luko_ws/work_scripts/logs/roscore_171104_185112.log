@@ -1,0 +1,31 @@
+171104_185112
+... logging to /home/pi/.ros/log/2255cfc2-c191-11e7-b308-b827eb5a2e89/roslaunch-raspberrypi-2941.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+]2;roscore
+[1mstarted roslaunch server http://raspberrypi:40413/[0m
+ros_comm version 1.12.7
+
+
+SUMMARY
+========
+
+PARAMETERS
+ * /rosdistro: kinetic
+ * /rosversion: 1.12.7
+
+NODES
+
+auto-starting new master
+[1mprocess[master]: started with pid [2998][0m
+[1mROS_MASTER_URI=http://raspberrypi:11311/[0m
+]2;roscore http://raspberrypi:11311/
+[1msetting /run_id to 2255cfc2-c191-11e7-b308-b827eb5a2e89[0m
+[1mprocess[rosout-1]: started with pid [3120][0m
+started core service [/rosout]
+[rosout-1] killing on exit
+[master] killing on exit
+shutting down processing monitor...
+... shutting down processing monitor complete
+[1mdone[0m

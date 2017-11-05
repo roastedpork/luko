@@ -1,4 +1,8 @@
+#!/usr/bin/env python
+
 from led_driver.msg import LightDriver
+import rospy
+import serial
 
 ### UART useable frequency is ~115200 bit/sec -> 1440 bytes/sec
 ### Each message has 5 bytes (compressed)
@@ -15,7 +19,7 @@ from led_driver.msg import LightDriver
 ### eg. updating the current buffer, turning the array dark quickly etc.
 
 
-cmap = lambda x : chr(x+32) # accepts [0,95]
+cmap = lambda x: chr(x+32) # accepts [0,95]
 BUFFER_LOAD = 89
 BUFFER_CLEAR = 90
 
@@ -36,7 +40,7 @@ class led_interface:
     def callback(self,data):
         rospy.loginfo("Received Instruction: %s" %(data.op))
         
-        if data.op = 'load':
+        if data.op == 'load':
             for i,values in enumerate(data.image):
                 i_conv = cmap(i)
                 r_conv = cmap((values >> 16+2) & 0x3f)
@@ -47,9 +51,13 @@ class led_interface:
 	    packet = cmap(BUFFER_LOAD)+ "000\n"
             self.serial.write(packet)
 
-        if data.op = 'clear':
+        elif data.op == 'clear':
             packet = cmap(BUFFER_CLEAR) + "000\n"
             self.serial.write(packet)
+	
+        elif data.op == 'test':
+            print "test"
+	
 
 if __name__ == "__main__":
     driver = led_interface()

@@ -14,53 +14,8 @@
 # EXTERNAL cache entries
 ########################
 
-//The threading library used by boost-thread
-BOOST_THREAD_LIBRARY:FILEPATH=/usr/lib/arm-linux-gnueabihf/libpthread.so
-
 //Build shared libraries (DLLs).
 BUILD_SHARED_LIBS:BOOL=ON
-
-//Boost atomic library (debug)
-Boost_ATOMIC_LIBRARY_DEBUG:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_atomic.so
-
-//Boost atomic library (release)
-Boost_ATOMIC_LIBRARY_RELEASE:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_atomic.so
-
-//Boost chrono library (debug)
-Boost_CHRONO_LIBRARY_DEBUG:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_chrono.so
-
-//Boost chrono library (release)
-Boost_CHRONO_LIBRARY_RELEASE:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_chrono.so
-
-//Boost date_time library (debug)
-Boost_DATE_TIME_LIBRARY_DEBUG:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_date_time.so
-
-//Boost date_time library (release)
-Boost_DATE_TIME_LIBRARY_RELEASE:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_date_time.so
-
-//The directory containing a CMake configuration file for Boost.
-Boost_DIR:PATH=Boost_DIR-NOTFOUND
-
-//Path to a file.
-Boost_INCLUDE_DIR:PATH=/usr/include
-
-//Boost library directory DEBUG
-Boost_LIBRARY_DIR_DEBUG:PATH=/usr/lib/arm-linux-gnueabihf
-
-//Boost library directory RELEASE
-Boost_LIBRARY_DIR_RELEASE:PATH=/usr/lib/arm-linux-gnueabihf
-
-//Boost system library (debug)
-Boost_SYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_system.so
-
-//Boost system library (release)
-Boost_SYSTEM_LIBRARY_RELEASE:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_system.so
-
-//Boost thread library (debug)
-Boost_THREAD_LIBRARY_DEBUG:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_thread.so
-
-//Boost thread library (release)
-Boost_THREAD_LIBRARY_RELEASE:FILEPATH=/usr/lib/arm-linux-gnueabihf/libboost_thread.so
 
 //List of ';' separated packages to exclude
 CATKIN_BLACKLIST_PACKAGES:STRING=
@@ -291,9 +246,6 @@ _CATKIN_GTEST_INCLUDE:FILEPATH=/usr/include/gtest/gtest.h
 //Path to a file.
 _CATKIN_GTEST_SRC:FILEPATH=/usr/src/gtest/src/gtest.cc
 
-//Path to a file.
-_file_name:FILEPATH=/home/pi/luko/luko_ws/src/rosserial/rosserial_test/test/rosserial_python_socket.test
-
 //Value Computed by CMake
 actionlib_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/actionlib_msgs
 
@@ -373,8 +325,14 @@ gtest_force_shared_crt:BOOL=OFF
 //Dependencies for the target
 gtest_main_LIB_DEPENDS:STATIC=general;-lpthread;general;gtest;
 
+//Value Computed by CMake
+led_driver_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/led_driver
+
+//Value Computed by CMake
+led_driver_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/led_driver
+
 //Path to a library.
-lib:FILEPATH=/opt/ros/kinetic/lib/librostime.so
+lib:FILEPATH=/opt/ros/kinetic/lib/libxmlrpcpp.so
 
 //Value Computed by CMake
 mbed_interface_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/mbed_interface
@@ -412,93 +370,6 @@ rosgraph_msgs_DIR:PATH=/opt/ros/kinetic/share/rosgraph_msgs/cmake
 //The directory containing a CMake configuration file for rospy.
 rospy_DIR:PATH=/opt/ros/kinetic/share/rospy/cmake
 
-//Value Computed by CMake
-rosserial_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial
-
-//Value Computed by CMake
-rosserial_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial
-
-//Value Computed by CMake
-rosserial_arduino_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_arduino
-
-//Value Computed by CMake
-rosserial_arduino_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_arduino
-
-//Value Computed by CMake
-rosserial_client_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_client
-
-//The directory containing a CMake configuration file for rosserial_client.
-rosserial_client_DIR:PATH=/home/pi/luko/luko_ws/devel/share/rosserial_client/cmake
-
-//Value Computed by CMake
-rosserial_client_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_client
-
-//Value Computed by CMake
-rosserial_embeddedlinux_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_embeddedlinux
-
-//Value Computed by CMake
-rosserial_embeddedlinux_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_embeddedlinux
-
-//Value Computed by CMake
-rosserial_mbed_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_mbed
-
-//Value Computed by CMake
-rosserial_mbed_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_mbed
-
-//Value Computed by CMake
-rosserial_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_msgs
-
-//The directory containing a CMake configuration file for rosserial_msgs.
-rosserial_msgs_DIR:PATH=/home/pi/luko/luko_ws/devel/share/rosserial_msgs/cmake
-
-//Value Computed by CMake
-rosserial_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_msgs
-
-//Value Computed by CMake
-rosserial_python_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_python
-
-//The directory containing a CMake configuration file for rosserial_python.
-rosserial_python_DIR:PATH=/home/pi/luko/luko_ws/devel/share/rosserial_python/cmake
-
-//Value Computed by CMake
-rosserial_python_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_python
-
-//Value Computed by CMake
-rosserial_server_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_server
-
-//The directory containing a CMake configuration file for rosserial_server.
-rosserial_server_DIR:PATH=/home/pi/luko/luko_ws/devel/share/rosserial_server/cmake
-
-//Value Computed by CMake
-rosserial_server_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_server
-
-//Value Computed by CMake
-rosserial_test_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_test
-
-//Value Computed by CMake
-rosserial_test_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_test
-
-//Value Computed by CMake
-rosserial_tivac_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_tivac
-
-//Value Computed by CMake
-rosserial_tivac_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_tivac
-
-//Value Computed by CMake
-rosserial_windows_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_windows
-
-//Value Computed by CMake
-rosserial_windows_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_windows
-
-//Value Computed by CMake
-rosserial_xbee_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/rosserial/rosserial_xbee
-
-//Value Computed by CMake
-rosserial_xbee_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/rosserial/rosserial_xbee
-
-//The directory containing a CMake configuration file for rostest.
-rostest_DIR:PATH=/opt/ros/kinetic/share/rostest/cmake
-
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/kinetic/share/rostime/cmake
 
@@ -526,9 +397,6 @@ stereo_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/stereo_msg
 //Value Computed by CMake
 stereo_msgs_SOURCE_DIR:STATIC=/home/pi/luko/luko_ws/src/common_msgs/stereo_msgs
 
-//The directory containing a CMake configuration file for topic_tools.
-topic_tools_DIR:PATH=/opt/ros/kinetic/share/topic_tools/cmake
-
 //Value Computed by CMake
 trajectory_msgs_BINARY_DIR:STATIC=/home/pi/luko/luko_ws/build/common_msgs/trajectory_msgs
 
@@ -549,34 +417,6 @@ xmlrpcpp_DIR:PATH=/opt/ros/kinetic/share/xmlrpcpp/cmake
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: Boost_ATOMIC_LIBRARY_DEBUG
-Boost_ATOMIC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_ATOMIC_LIBRARY_RELEASE
-Boost_ATOMIC_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_DEBUG
-Boost_CHRONO_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_RELEASE
-Boost_CHRONO_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_DATE_TIME_LIBRARY_DEBUG
-Boost_DATE_TIME_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_DATE_TIME_LIBRARY_RELEASE
-Boost_DATE_TIME_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_DIR
-Boost_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_INCLUDE_DIR
-Boost_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_LIBRARY_DIR_DEBUG
-Boost_LIBRARY_DIR_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_LIBRARY_DIR_RELEASE
-Boost_LIBRARY_DIR_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_DEBUG
-Boost_SYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_RELEASE
-Boost_SYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_THREAD_LIBRARY_DEBUG
-Boost_THREAD_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_THREAD_LIBRARY_RELEASE
-Boost_THREAD_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //catkin environment
 CATKIN_ENV:INTERNAL=/home/pi/luko/luko_ws/build/catkin_generated/env_cached.sh
 CATKIN_TEST_RESULTS_DIR:INTERNAL=/home/pi/luko/luko_ws/build/test_results
@@ -674,7 +514,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=14
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=15
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -738,16 +578,4 @@ PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
 //  And it needs to match.  But setuptools won't tell us where
 // it will install things.
 PYTHON_INSTALL_DIR:INTERNAL=lib/python2.7/dist-packages
-//Components requested for this build tree.
-_Boost_COMPONENTS_SEARCHED:INTERNAL=atomic;chrono;date_time;system;thread
-//Last used Boost_INCLUDE_DIR value.
-_Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
-//Last used Boost_LIBRARY_DIR_DEBUG value.
-_Boost_LIBRARY_DIR_DEBUG_LAST:INTERNAL=/usr/lib/arm-linux-gnueabihf
-//Last used Boost_LIBRARY_DIR_RELEASE value.
-_Boost_LIBRARY_DIR_RELEASE_LAST:INTERNAL=/usr/lib/arm-linux-gnueabihf
-//Last used Boost_NAMESPACE value.
-_Boost_NAMESPACE_LAST:INTERNAL=boost
-//Last used Boost_USE_MULTITHREADED value.
-_Boost_USE_MULTITHREADED_LAST:INTERNAL=TRUE
 

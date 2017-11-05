@@ -1,2 +1,2 @@
-String op
+string op
 uint32[] image
