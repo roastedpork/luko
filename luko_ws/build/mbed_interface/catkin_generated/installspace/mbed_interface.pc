@@ -1,8 +1,0 @@
-prefix=/home/pi/luko/luko_ws/install
-
-Name: mbed_interface
-Description: Description of mbed_interface
-Version: 0.0.0
-Cflags: -I/home/pi/luko/luko_ws/install/include
-Libs: -L/home/pi/luko/luko_ws/install/lib 
-Requires: message_runtime
