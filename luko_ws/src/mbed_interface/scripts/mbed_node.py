@@ -7,8 +7,8 @@ hex = lambda x : '0'<=x<='9' or 'a'<=x<='f'
 
 class mbed_interface:
     def __init__(self):
-        self.pub = rospy.Publisher("mbed/current_angle",JointAngles)
-        self.sub = rospy.Subscriber("mbed/target_angle", JointAngles, self.callback, queue_size=1)
+        self.pub = rospy.Publisher("mbed/get_current_angle",JointAngles, queue_size=10)
+        self.sub = rospy.Subscriber("mbed/set_target_angle", JointAngles, self.callback, queue_size=10)
 	self.serial = serial.Serial(
             port="/dev/ttyAMA0",
             baudrate=9600,
@@ -18,6 +18,8 @@ class mbed_interface:
             timeout=1
         )
 	print "Serial Connection: "+ str(self.serial.isOpen())
+	self.serial.flushInput()
+	self.serial.flushOutput()
 
     def readSerialIn(self,str):
         try:
@@ -28,7 +30,7 @@ class mbed_interface:
         return res
 
     def callback(self,ros_data):
-	   rospy.loginfo(" Received: " + ", ".join([str(i) for i in ros_data.joints]))
+	   rospy.loginfo("New target: " + ", ".join([str(i) for i in ros_data.joints]))
            
            ### read target_angle msg from callback ###
            target = [int(round(j)) for j in ros_data.joints]
@@ -44,12 +46,13 @@ class mbed_interface:
 
             msg = JointAngles()
             msg.joints = self.readSerialIn(self.serial.readline())
+            self.serial.flushInput() # we want to get the latest values
+	    rospy.loginfo("Current: " + ", ".join([str(i) for i in msg.joints]))
             self.pub.publish(msg)
 	    r.sleep()
 
 
 if __name__ == '__main__':
-    mbed = mbed_interface()
     rospy.init_node('mbed_Interface', anonymous=True)
-
+    mbed = mbed_interface()    
     mbed.run()
