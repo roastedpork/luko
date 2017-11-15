@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot name="luko">
 
+<!-- Bottom base, the piece of metal from an old screen -->
   <link name="base_link">
     <visual>
       <geometry>
@@ -9,6 +10,7 @@
     </visual>
   </link>
 
+<!-- The cylindrical-shaped rotating joint between the base and the arm mount -->
   <link name="cylinder">
     <visual>
       <geometry>
@@ -24,7 +26,17 @@
     <origin xyz="0 0 0"/>
   </joint>
 
-  <link name="lower_link">
+<!-- Arm mount inside the cylindrical thingy -->
+  <joint name="cylinder_joint" type="revolute">
+    <parent link="cylinder"/>
+    <child link="bottom_mount"/>
+    <origin xyz="0 0 0"/>
+    <axis xyz="0 0 1" />
+    <limit lower="-3.14" upper="3.14" effort="0.5293" velocity="6.159937255" />
+ </joint>
+
+<!-- Bottom arm mount -->
+  <link name="bottom_mount">
     <visual>
       <origin xyz="0 0 0.1" rpy="1.57 0 0" />
       <geometry>
@@ -36,22 +48,8 @@
     </visual>
   </link>
 
-  <joint name="cylinder_joint" type="fixed">
-    <parent link="cylinder"/>
-    <child link="lower_link"/>
-    <origin xyz="0 0 0"/>
-  </joint>
-
-    
-  <joint name="joint0" type="revolute">
-    <parent link="lower_link"/>
-    <child link="link1"/>
-    <origin xyz="0 -0.02 0.125" rpy="0 0 0" />
-    <axis xyz="1 0 0" />
-    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
-  </joint>
-
-  <link name="link1">
+<!-- Lower arm fwd rod -->
+  <link name="low_fwd_rod">
     <visual>
       <origin xyz="0 0 0.125" rpy="0 0 0" />
       <geometry>
@@ -63,16 +61,8 @@
     </visual>
   </link>
 
-  <joint name="joint1" type="revolute">
-    <parent link="base_link"/>
-    <child link="link2"/>
-    <origin xyz="0 0.02 0.125" rpy="0 0 0" />
-    <axis xyz="1 0 0" />
-    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
-    <mimic joint="joint0" multiplier="1" offset="0" />
-  </joint>
-
-  <link name="link2">
+<!-- Lower arm aft rod -->
+  <link name="low_aft_rod">
     <visual>
       <origin xyz="0 0 0.125" rpy="0 0 0" />
       <geometry>
@@ -84,16 +74,37 @@
     </visual>
   </link>
 
-  <joint name="joint2" type="revolute">
-    <parent link="link1"/>
-    <child link="link3"/>
+<!-- Bottom mount to fwd lower rod -->
+  <joint name="low_joint0" type="revolute">
+    <parent link="bottom_mount"/>
+    <child link="low_fwd_rod"/>
+    <origin xyz="0 -0.02 0.125" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
+  </joint>
+
+<!-- Bottom mount to aft lower rod -->
+  <joint name="low_joint1" type="revolute">
+    <parent link="bottom_mount"/>
+    <child link="low_aft_rod"/>
+    <origin xyz="0 0.02 0.125" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
+    <mimic joint="low_joint0" multiplier="1" offset="0" />
+  </joint>
+
+<!-- Fwd lower rod to middle piece -->
+  <joint name="low_joint2" type="revolute">
+    <parent link="low_fwd_rod"/>
+    <child link="middle_piece"/>
     <origin xyz="0 0 0.25" rpy="0 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
-    <mimic joint="joint0" multiplier="-1" offset="0" />
+    <mimic joint="low_joint0" multiplier="-1" offset="0" />
   </joint>
 
-  <link name="link3">
+<!-- The piece of plastic joining the lower and upper arms -->
+  <link name="middle_piece">
     <visual>
       <origin xyz="0 0.02 0.025" rpy="1.57 0 0" />
       <geometry>
@@ -104,6 +115,74 @@
       </material>
     </visual>
   </link>
+
+<!-- Upper arm rods 1 and 2 -->
+  <link name="up_fwd_rod">
+    <visual>
+      <origin xyz="0 -0.125 0" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder radius="0.005" length="0.25" />
+      </geometry>
+      <material name="yellow">
+        <color rgba=".8 0 .8 1" />
+      </material>
+    </visual>
+  </link>
+
+  <link name="up_aft_rod">
+    <visual>
+      <origin xyz="0 -0.125 0" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder radius="0.005" length="0.25" />
+      </geometry>
+      <material name="green">
+        <color rgba="0 .8 0 1" />
+      </material>
+    </visual>
+  </link>
+
+<!-- Piece of plastic between upper arm and head -->
+  <link name="head_mount">
+    <visual>
+      <origin xyz="0 -0.025 0.025" rpy="1.57 0 0" />
+      <geometry>
+        <box size="0.01 0.05 0.05" />
+      </geometry>
+      <material name="red">
+        <color rgba=".8 0 0 1" />
+      </material>
+    </visual>
+  </link>
+
+<!-- Middle piece to fwd upper rod -->
+  <joint name="up_joint0" type="revolute">
+    <parent link="middle_piece"/>
+    <child link="up_fwd_rod"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
+  </joint>
+
+<!-- Middle piece to aft upper rod -->
+  <joint name="up_joint1" type="revolute">
+    <parent link="middle_piece"/>
+    <child link="up_aft_rod"/>
+    <origin xyz="0 0 0.045" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
+    <mimic joint="up_joint0" multiplier="1" offset="0" />
+  </joint>
+
+<!-- Fwd upper rod to head mount -->
+  <joint name="up_joint2" type="revolute">
+    <parent link="up_fwd_rod"/>
+    <child link="head_mount"/>
+    <origin xyz="0 -0.25 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
+    <mimic joint="up_joint0" multiplier="-1" offset="0" />
+  </joint>
+
 
 </robot>
 
