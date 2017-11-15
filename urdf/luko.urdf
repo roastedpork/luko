@@ -42,18 +42,18 @@
     <origin xyz="0 0 0"/>
   </joint>
 
-	
+    
   <joint name="joint0" type="revolute">
     <parent link="lower_link"/>
     <child link="link1"/>
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 -0.02 0.125" rpy="0 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
   </joint>
 
   <link name="link1">
     <visual>
-      <origin xyz="0 -0.02 0.250" rpy="0 0 0" />
+      <origin xyz="0 0 0.125" rpy="0 0 0" />
       <geometry>
         <cylinder radius="0.005" length="0.25" />
       </geometry>
@@ -66,7 +66,7 @@
   <joint name="joint1" type="revolute">
     <parent link="base_link"/>
     <child link="link2"/>
-    <origin xyz="0 0.5 0" rpy="0 0 0" />
+    <origin xyz="0 0.02 0.125" rpy="0 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
     <mimic joint="joint0" multiplier="1" offset="0" />
@@ -74,7 +74,7 @@
 
   <link name="link2">
     <visual>
-      <origin xyz="0 0.02 0.0250" rpy="0 0 0" />
+      <origin xyz="0 0 0.125" rpy="0 0 0" />
       <geometry>
         <cylinder radius="0.005" length="0.25" />
       </geometry>
@@ -87,7 +87,7 @@
   <joint name="joint2" type="revolute">
     <parent link="link1"/>
     <child link="link3"/>
-    <origin xyz="0 0 0.5" rpy="0 0 0" />
+    <origin xyz="0 0 0.25" rpy="0 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
     <mimic joint="joint0" multiplier="-1" offset="0" />
@@ -95,9 +95,9 @@
 
   <link name="link3">
     <visual>
-      <origin xyz="0 0.25 0" rpy="1.57 0 0" />
+      <origin xyz="0 0.02 0.025" rpy="1.57 0 0" />
       <geometry>
-        <cylinder radius="0.02" length="0.05" />
+        <box size="0.01 0.05 0.05" />
       </geometry>
       <material name="red">
         <color rgba=".8 0 0 1" />
@@ -106,5 +106,4 @@
   </link>
 
 </robot>
-
 
