@@ -12,7 +12,7 @@ class Fullscreen_Window:
         self.tk = tk.Tk()
         self.tk.attributes('-fullscreen', True)  # This just maximizes it so we can see the window. It's nothing to do with fullscreen.
         self.tk.configure(background='black')
-    self.frame = tk.Frame(self.tk)
+        self.frame = tk.Frame(self.tk)
         self.frame.pack()
         self.state = True
         self.tk.bind("<F11>", self.toggle_fullscreen)
@@ -32,10 +32,9 @@ if __name__ == '__main__':
     w = Fullscreen_Window()
 
 
-    img = ImageTk.PhotoImage(Image.open("test_image.jpg"))
-    panel = tk.Label(w.tk, image=photo)
-    label.image = photo
-    label.pack()
+    img = ImageTk.PhotoImage(Image.open("test_image.jpg").resize((720,720), Image.ANTIALIAS))
+    panel = tk.Label(w.tk, image=img)
+    panel.pack()
 
 
     w.tk.mainloop()
