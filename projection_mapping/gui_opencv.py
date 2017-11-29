@@ -7,8 +7,8 @@ import pygame
 import cv2
 
 # dimension of the display
-screen_cols = 1182 #1280
-screen_rows = 624 #720
+screen_cols = 1920 #1182
+screen_rows = 1080 #624
 
 # initialise GUI environment
 pygame.init()
@@ -19,25 +19,61 @@ pygame.mouse.set_visible(False)
 pygame.display.set_caption("Luko")
 clock = pygame.time.Clock()
 info = pygame.display.Info()
-print(info)
-
 
 
 
 class ImageHandler(object):
 	def __init__(self, file, grayscale = False):
+		# load image
+		img = cv2.imread(file, 0) if grayscale else cv2.imread(file,1)
 
-		self.original = cv2.imread(file, 0) if grayscale else cv2.imread(file,1)
+		# resize longer edge of the image to the shorter edge of the screen
+		size = img.shape
+		rows, cols = size[0],size[1]
+		short_side = min(info.current_w,info.current_h)
+		diag = math.sqrt(rows*rows + cols*cols)
+
+		if len(size) == 3:
+			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+		new_size = (int(cols*short_side/max(size)), int(rows*short_side/max(size)))
+
+		# member variables
+		self.original = cv2.resize(img, dsize=new_size)
+		self.diag = math.sqrt(new_size[0]*new_size[0] + new_size[1]*new_size[1])
+	
 		self.buffer = np.copy(self.original)
+		self.rotated = False
+		self.grayscale = grayscale
+
+	def rotate(self, rot):
+		# performs rotation on the image before transformation
+		# DON'T USE THIS IF YOU ARE NOT INTENDING TO ROTATE
+		diag = int(self.diag)
+		mid = diag/2
+		temp = np.zeros((diag,diag), dtype = np.uint8) if self.grayscale else np.zeros((diag,diag,3), dtype = np.uint8)
+
+		size = self.original.shape
+		rows, cols = size[0], size[1]
+		halfR,halfC = rows/2,cols/2
+		if self.grayscale: temp[mid-halfR:mid+halfR,mid-halfC:mid+halfC] = self.original[0:2*halfR,0:2*halfC]
+		else: temp[mid-halfR:mid+halfR,mid-halfC:mid+halfC,:] = self.original[0:2*halfR,0:2*halfC,:]
+
+
+		# Generate map matrix
+		M = cv2.getRotationMatrix2D((mid,mid), rot, 1.0)
+		
+		# Write to buffer
+		self.buffer = cv2.warpAffine(temp, M, (diag,diag), flags = cv2.INTER_LINEAR)
+		self.rotated = True
 
 	def transform(self,theta):
 		# performs perspective transform on an OpenCV image depending on angle
-		size = self.original.shape
-		cols, rows = size[0], size[1]
+		size = self.buffer.shape if self.rotated else self.original.shape
+		rows, cols = size[0], size[1]
 		
 		# empirically obtained scaling factors
-		scaleC = 0.25
-		scaleR = 0.5	
+		scaleC = 0.5
+		scaleR = 0.7	
 
 		delC = int(scaleC*cols*(math.sin(math.radians(theta)))/2)
 		delR = int(rows*scaleR*math.sin(math.radians(theta)))
@@ -48,36 +84,25 @@ class ImageHandler(object):
 		M = cv2.getPerspectiveTransform(pts1,pts2)
 
 		# Write to buffer
-		self.buffer = cv2.warpPerspective(self.original,M,(cols,rows-delR))
+		self.buffer = cv2.warpPerspective(self.buffer if self.rotated else self.original,M,(cols,rows-delR))
 
 	def display(self, screen, blitPoint = None):
-		# converts an OpenCV image buffer into a resized pygame image
-		self.buffer = np.rot90(self.buffer)
-		size = self.buffer.shape
-		cols, rows = size[0],size[1]
-
-		short_side = min(info.current_w,info.current_h)
-		if len(size) == 3:
-			self.buffer = cv2.cvtColor(self.buffer, cv2.COLOR_BGR2RGB)
-		new_size = (int(size[1]*short_side/max(size)), int(size[0]*short_side/max(size)))
-
-		self.buffer = cv2.resize(self.buffer, dsize=new_size)
-		
 		# display image on screen
+		self.buffer = np.rot90(self.buffer)
 		frame = pygame.surfarray.make_surface(self.buffer)
-		if blitPoint == None: blitPoint = ((info.current_w-cols)/2, (info.current_h-rows)/2)
-		screen.blit(frame, blitPoint)
-		print(info.current_w,info.current_h)
-		print(self.buffer.shape)
-		print(blitPoint)
+		
+		# Calculate blitPoint to display at centre if not given
+		if blitPoint == None: 
+			size = self.buffer.shape
+			cols, rows = size[0],size[1]
+			blitPoint = ((info.current_w-cols)/2, (info.current_h-rows)/2)
 
+		screen.blit(frame, blitPoint)
+		self.rotated = False
 
 if __name__ == "__main__":
 	# load cv2 image
 	img = ImageHandler('grid30.png')
-	img.transform(30)
-	img.display(screen)
-	pygame.display.update()
 
 	# main running loop
 	try:
@@ -88,12 +113,13 @@ if __name__ == "__main__":
 					sys.exit(0)
 				print(event)
 
+			#img.rotate(30)
 			img.transform(angle)
 			screen.fill([0,0,0])
 			img.display(screen)
-			angle = angle + 5 if angle < 90 else 0
+			angle = angle + 3 if angle < 90 else 0
 			pygame.display.update()
-			clock.tick(1)
+			clock.tick(60)
 
 	except KeyboardInterrupt or SystemExit:
 		pygame.quit()
