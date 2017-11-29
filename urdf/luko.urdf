@@ -51,9 +51,9 @@
 <!-- Lower arm fwd rod -->
   <link name="low_fwd_rod">
     <visual>
-      <origin xyz="0 0 0.125" rpy="0 0 0" />
+      <origin xyz="0 0 0.11" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.005" length="0.25" />
+        <cylinder radius="0.005" length="0.22" />
       </geometry>
       <material name="yellow">
         <color rgba=".8 0 .8 1" />
@@ -64,9 +64,9 @@
 <!-- Lower arm aft rod -->
   <link name="low_aft_rod">
     <visual>
-      <origin xyz="0 0 0.125" rpy="0 0 0" />
+      <origin xyz="0 0 0.11" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.005" length="0.25" />
+        <cylinder radius="0.005" length="0.22" />
       </geometry>
       <material name="green">
         <color rgba="0 .8 0 1" />
@@ -78,7 +78,7 @@
   <joint name="low_joint0" type="revolute">
     <parent link="bottom_mount"/>
     <child link="low_fwd_rod"/>
-    <origin xyz="0 -0.02 0.125" rpy="0 0 0" />
+    <origin xyz="0 -0.0145 0.085" rpy="-0.38 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
   </joint>
@@ -87,7 +87,7 @@
   <joint name="low_joint1" type="revolute">
     <parent link="bottom_mount"/>
     <child link="low_aft_rod"/>
-    <origin xyz="0 0.02 0.125" rpy="0 0 0" />
+    <origin xyz="0 0.0145 0.100" rpy="-0.30 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
     <mimic joint="low_joint0" multiplier="1" offset="0" />
@@ -97,7 +97,7 @@
   <joint name="low_joint2" type="revolute">
     <parent link="low_fwd_rod"/>
     <child link="middle_piece"/>
-    <origin xyz="0 0 0.25" rpy="0 0 0" />
+    <origin xyz="0 0 0.22" rpy="0 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
     <mimic joint="low_joint0" multiplier="-1" offset="0" />
@@ -106,7 +106,7 @@
 <!-- The piece of plastic joining the lower and upper arms -->
   <link name="middle_piece">
     <visual>
-      <origin xyz="0 0.02 0.025" rpy="1.57 0 0" />
+      <origin xyz="0 -0.015 0.020" rpy="0.38 0 0" />
       <geometry>
         <box size="0.01 0.05 0.05" />
       </geometry>
@@ -119,9 +119,9 @@
 <!-- Upper arm rods 1 and 2 -->
   <link name="up_fwd_rod">
     <visual>
-      <origin xyz="0 -0.125 0" rpy="1.57 0 0" />
+      <origin xyz="0 -0.085 0" rpy="1.57 0 0" />
       <geometry>
-        <cylinder radius="0.005" length="0.25" />
+        <cylinder radius="0.005" length="0.17" />
       </geometry>
       <material name="yellow">
         <color rgba=".8 0 .8 1" />
@@ -131,9 +131,9 @@
 
   <link name="up_aft_rod">
     <visual>
-      <origin xyz="0 -0.125 0" rpy="1.57 0 0" />
+      <origin xyz="0 -0.085 0" rpy="1.57 0 0" />
       <geometry>
-        <cylinder radius="0.005" length="0.25" />
+        <cylinder radius="0.005" length="0.17" />
       </geometry>
       <material name="green">
         <color rgba="0 .8 0 1" />
@@ -144,9 +144,9 @@
 <!-- Piece of plastic between upper arm and head -->
   <link name="head_mount">
     <visual>
-      <origin xyz="0 -0.025 0.025" rpy="1.57 0 0" />
+      <origin xyz="0 -0.015 0.015" rpy="1.57 0 0" />
       <geometry>
-        <box size="0.01 0.05 0.05" />
+        <box size="0.01 0.03 0.03" />
       </geometry>
       <material name="red">
         <color rgba=".8 0 0 1" />
@@ -158,7 +158,7 @@
   <joint name="up_joint0" type="revolute">
     <parent link="middle_piece"/>
     <child link="up_fwd_rod"/>
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 -0.01 0" rpy="0.38 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
   </joint>
@@ -167,7 +167,7 @@
   <joint name="up_joint1" type="revolute">
     <parent link="middle_piece"/>
     <child link="up_aft_rod"/>
-    <origin xyz="0 0 0.045" rpy="0 0 0" />
+    <origin xyz="0 -0.025 0.01" rpy="0.38 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
     <mimic joint="up_joint0" multiplier="1" offset="0" />
@@ -177,10 +177,67 @@
   <joint name="up_joint2" type="revolute">
     <parent link="up_fwd_rod"/>
     <child link="head_mount"/>
-    <origin xyz="0 -0.25 0" rpy="0 0 0" />
+    <origin xyz="0 -0.165 -0.005" rpy="0 0 0" />
     <axis xyz="1 0 0" />
     <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
     <mimic joint="up_joint0" multiplier="-1" offset="0" />
+  </joint>
+
+<!-- Head mount link -->
+  <link name="head_link">
+    <visual>
+      <origin xyz="0 -0.01 0" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder radius="0.004" length="0.02" />
+      </geometry>
+      <material name="green">
+        <color rgba="0 .8 0 1" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="head_bearing_link" type="revolute">
+    <parent link="head_mount"/>
+    <child link="head_link"/>
+    <origin xyz="0 -0.02 0.005" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
+  </joint>
+
+  <link name="head_aft">
+    <visual>
+      <origin xyz="0 -0.04 -0.01" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.025" length="0.07" />
+      </geometry>
+      <material name="green">
+        <color rgba="0 .8 0 1" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="head_to_lamp" type="fixed">
+    <parent link="head_link"/>
+    <child link="head_aft"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="head_fwd">
+    <visual>
+      <origin xyz="0 -0.040 -0.06" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.05" />
+      </geometry>
+      <material name="green">
+        <color rgba="0 .8 0 1" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="head_to_reflector" type="fixed">
+    <parent link="head_aft"/>
+    <child link="head_fwd"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
 
