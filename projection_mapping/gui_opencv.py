@@ -2,6 +2,7 @@
 import sys
 import time
 import math
+import random
 import numpy as np
 import pygame
 import cv2
@@ -43,6 +44,7 @@ class ImageHandler(object):
 	
 		self.buffer = np.copy(self.original)
 		self.rotated = False
+		self.transformed = False
 		self.grayscale = grayscale
 
 	def rotate(self, rot):
@@ -102,23 +104,29 @@ class ImageHandler(object):
 
 if __name__ == "__main__":
 	# load cv2 image
-	img = ImageHandler('grid30.png')
+	phi = 30
+	theta = 0
+	
+	paths = ['grid30.png', 'dog_bg_black.jpg']	
+	imgs = [ImageHandler(path) for path in paths]
+	ind = 0
+
 
 	# main running loop
 	try:
-		angle = 0
 		while True:
 			for event in pygame.event.get():
 				if event.type == pygame.KEYDOWN:
 					sys.exit(0)
 				print(event)
 
-			#img.rotate(30)
-			img.transform(angle)
+			imgs[ind].rotate(phi)
+			imgs[ind].transform(theta)
 			screen.fill([0,0,0])
-			img.display(screen)
-			angle = angle + 3 if angle < 90 else 0
+			imgs[ind].display(screen)
+			theta = theta + 3 if theta < 90 else 0
 			pygame.display.update()
+			if random.randint(0,20) < 2: ind = 0 if ind else 1
 			clock.tick(60)
 
 	except KeyboardInterrupt or SystemExit:
