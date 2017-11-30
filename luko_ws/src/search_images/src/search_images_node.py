@@ -20,49 +20,66 @@ class SearchNode(object):
         self.sub = rospy.Subscriber("search_images/query", String, self.callback, queue_size = 1)
         self.pub = rospy.Publisher("search_images/status_flag", Bool, queue_size = 1)
 
+        if os.path.isfile("searchRes/loaded.txt"):
+            with open("searchRes/loaded.txt","r") as file:
+                self.loaded = json.load(file)
+        else:
+            self.loaded = []
+
     def callback(self,ros_data):
 	rospy.loginfo("searching for images of '%s'..." % (ros_data.data))
-	print "searching for images of '%s'..." % (ros_data.data)
 
         # search parameters
         query = ros_data.data.replace(" ","+")
-        max_images = 10
+        prefix = ros_data.data.replace(" ","_")
+        max_images = 5
         save_directory = 'searchRes'
 
-        # url header configs
-        image_type="Action"
-        url="https://www.google.co.in/search?q="+query+"&source=lnms&tbm=isch"
-        header={'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36"}
-        soup = BeautifulSoup(urllib2.urlopen(urllib2.Request(url,headers=header)),'html.parser')
+        if prefix not in self.loaded:
+            self.loaded.append(prefix)
 
-        # parsing for all links to high res images in html
-        ActualImages=[]
-        for a in soup.find_all("div",{"class":"rg_meta"}):
-            link , Type =json.loads(a.text)["ou"]  ,json.loads(a.text)["ity"]
-            ActualImages.append((link,Type))
+            # url header configs
+            image_type="Action"
+            url="https://www.google.co.in/search?q="+query+"&source=lnms&tbm=isch"
+            header={'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36"}
+            soup = BeautifulSoup(urllib2.urlopen(urllib2.Request(url,headers=header)),'html.parser')
 
-        # retrieving all high res images
-        print "Downloading images of '%s'..." % (ros_data.data)
-        prefix = ros_data.data.replace(" ","_")
-        if not os.path.exists(save_directory): os.mkdir(save_directory)
-        for i , (img , Type) in enumerate(ActualImages[0:max_images]):
-            try:
-                req = urllib2.Request(img, headers=header)
-                raw_img = urllib2.urlopen(req).read()
-                if len(Type)==0:
-                    f = open(str(os.path.join(save_directory , prefix + "_%02d.jpg"%(i))), 'wb')
-                else :
-                    f = open(str(os.path.join(save_directory , prefix + "_%02d."%(i) + Type)), 'wb')
-                f.write(raw_img)
-                f.close()
-            except Exception as e:
-                print("could not load : "+img)
-                print(e)
+            # parsing for all links to high res images in html
+            ActualImages=[]
+            for a in soup.find_all("div",{"class":"rg_meta"}):
+                link , Type =json.loads(a.text)["ou"]  ,json.loads(a.text)["ity"]
+                ActualImages.append((link,Type))
 
-        resp = Bool()
-        resp.data = True
-        self.pub.publish(resp)
-        rospy.loginfo( "Downloaded images of '%s'..." % (ros_data.data))
+            # retrieving all high res images
+            rospy.loginfo("Downloading images of '%s'..." % (ros_data.data))
+            if not os.path.exists(save_directory): os.mkdir(save_directory)
+            for i , (img , Type) in enumerate(ActualImages[0:max_images]):
+                try:
+                    req = urllib2.Request(img, headers=header)
+                    raw_img = urllib2.urlopen(req).read()
+                    if len(Type)==0:
+                        f = open(str(os.path.join(save_directory , prefix + "_%02d.jpg"%(i))), 'wb')
+                    else :
+                        f = open(str(os.path.join(save_directory , prefix + "_%02d."%(i) + Type)), 'wb')
+                    f.write(raw_img)
+                    f.close()
+                    rospy.loginfo( "Image %02d of %02d downloaded..." % (i+1,max_images))
+
+                except Exception as e:
+                    print("could not load : "+img)
+                    print(e)
+
+            resp = Bool()
+            resp.data = True
+            self.pub.publish(resp)
+
+            with open("searchRes/loaded.txt","w") as file:
+                json.dump(self.loaded,file)
+        else:
+            rospy.loginfo("Images of '%s' has previously been downloaded" % prefix)
+            resp = Bool()
+            resp.data = True
+            self.pub.publish(resp)
 
 if __name__ == '__main__':
     print "Initializing google images search node..."
