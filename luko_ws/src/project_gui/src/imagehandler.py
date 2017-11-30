@@ -7,26 +7,11 @@ import numpy as np
 import pygame
 import cv2
 
-# dimension of the display
-screen_cols = 1920 #1182
-screen_rows = 1080 #624
-
-# initialise GUI environment
-pygame.init()
-flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.NOFRAME | pygame.FULLSCREEN
-screen = pygame.display.set_mode((screen_cols,screen_rows), flags)
-screen.fill([0,0,0])
-pygame.mouse.set_visible(False)
-pygame.display.set_caption("Luko")
-clock = pygame.time.Clock()
-info = pygame.display.Info()
-
-
-
 class ImageHandler(object):
 	def __init__(self, file, grayscale = False):
 		# load image
 		img = cv2.imread(file, 0) if grayscale else cv2.imread(file,1)
+                info = pygame.display.Info()
 
 		# resize longer edge of the image to the shorter edge of the screen
 		size = img.shape
@@ -92,7 +77,7 @@ class ImageHandler(object):
 		# display image on screen
 		self.buffer = np.rot90(self.buffer)
 		frame = pygame.surfarray.make_surface(self.buffer)
-		
+                info = pygame.display.Info()		
 		# Calculate blitPoint to display at centre if not given
 		if blitPoint == None: 
 			size = self.buffer.shape
