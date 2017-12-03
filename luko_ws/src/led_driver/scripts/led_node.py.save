@@ -20,7 +20,7 @@ import serial
 
 
 cmap = lambda x: chr(x+32) # accepts [0,95]
-BUFFER_LOAD = 89
+BUFFER_LOAD = 
 BUFFER_CLEAR = 90
 
 
@@ -40,20 +40,27 @@ class led_interface:
     def callback(self,data):
         rospy.loginfo("Received Instruction: %s" %(data.op))
         
-        if data.op == 'raw':
-            msg_str = ''
+        if data.op == 'load':
+            msg_str = 'r'
             nPixels = data.nPixels
-            msg_str += "%02x%02x%02x"% (int(data.r[0]),int(data.g[0]),int(data.b[0]))
-            for i in range(1,len(nPixels)):
-                msg_str += " %02x%02x%02x"% (int(data.r[i]),int(data.g[i]),int(data.b[i]))
-            msg_str += '\n'
+            for i in range(len(nPixels)):
+                msg_str += ' %02x%02x%02x' % (int(data.r[i]),int(data),int())
 
-        elif data.op == 'fill':
-            msg_str += "\# %02x%02x%02x\n"% (int(data.r[0]),int(data.g[0]),int(data.b[0]))
+                i_conv = cmap(i)
+                r_conv = cmap((values >> 16+2) & 0x3f)
+                g_conv = cmap((values >> 8+2) & 0x3f)
+                b_conv = cmap((values >> 2) & 0x3f)
+		packet = i_conv + r_conv + g_conv + b_conv + "\n"
+                self.serial.write(packet)
+	    packet = cmap(BUFFER_LOAD)+ "000\n"
+            self.serial.write(packet)
 
-        rospy.loginfo(msg_str)
-        #self.serial.write(msg_str)
+        elif data.op == 'clear':
+            packet = cmap(BUFFER_CLEAR) + "000\n"
+            self.serial.write(packet)
 	
+        elif data.op == 'test':
+            print "test"
 	
 
 if __name__ == "__main__":
