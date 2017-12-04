@@ -42,9 +42,6 @@
       <geometry>
         <box size="0.01 0.05 0.05" />
       </geometry>
-      <material name="blue">
-        <color rgba="0 0 .8 1" />
-      </material>
     </visual>
   </link>
 
@@ -55,9 +52,6 @@
       <geometry>
         <cylinder radius="0.005" length="0.22" />
       </geometry>
-      <material name="yellow">
-        <color rgba=".8 0 .8 1" />
-      </material>
     </visual>
   </link>
 
@@ -68,9 +62,6 @@
       <geometry>
         <cylinder radius="0.005" length="0.22" />
       </geometry>
-      <material name="green">
-        <color rgba="0 .8 0 1" />
-      </material>
     </visual>
   </link>
 
@@ -110,9 +101,6 @@
       <geometry>
         <box size="0.01 0.05 0.05" />
       </geometry>
-      <material name="red">
-        <color rgba=".8 0 0 1" />
-      </material>
     </visual>
   </link>
 
@@ -123,9 +111,6 @@
       <geometry>
         <cylinder radius="0.005" length="0.17" />
       </geometry>
-      <material name="yellow">
-        <color rgba=".8 0 .8 1" />
-      </material>
     </visual>
   </link>
 
@@ -135,9 +120,6 @@
       <geometry>
         <cylinder radius="0.005" length="0.17" />
       </geometry>
-      <material name="green">
-        <color rgba="0 .8 0 1" />
-      </material>
     </visual>
   </link>
 
@@ -148,9 +130,6 @@
       <geometry>
         <box size="0.01 0.03 0.03" />
       </geometry>
-      <material name="red">
-        <color rgba=".8 0 0 1" />
-      </material>
     </visual>
   </link>
 
@@ -190,9 +169,6 @@
       <geometry>
         <cylinder radius="0.004" length="0.02" />
       </geometry>
-      <material name="green">
-        <color rgba="0 .8 0 1" />
-      </material>
     </visual>
   </link>
 
@@ -210,17 +186,16 @@
       <geometry>
         <cylinder radius="0.025" length="0.07" />
       </geometry>
-      <material name="green">
-        <color rgba="0 .8 0 1" />
-      </material>
     </visual>
   </link>
 
-  <joint name="head_to_lamp" type="fixed">
+  <joint name="head_to_lamp" type="revolute">
     <parent link="head_link"/>
     <child link="head_aft"/>
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </joint>
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0.5293" velocity="6.159937255" />
+ </joint>
 
   <link name="head_fwd">
     <visual>
@@ -228,9 +203,6 @@
       <geometry>
         <cylinder radius="0.05" length="0.05" />
       </geometry>
-      <material name="green">
-        <color rgba="0 .8 0 1" />
-      </material>
     </visual>
   </link>
 
