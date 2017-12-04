@@ -20,8 +20,8 @@ class SearchNode(object):
         self.sub = rospy.Subscriber("search_images/query", String, self.callback, queue_size = 1)
         self.pub = rospy.Publisher("search_images/status_flag", Bool, queue_size = 1)
 
-        if os.path.isfile("searchRes/loaded.txt"):
-            with open("searchRes/loaded.txt","r") as file:
+        if os.path.isfile("/home/pi/searchRes/loaded.txt"):
+            with open("/home/pi/searchRes/loaded.txt","r") as file:
                 self.loaded = json.load(file)
         else:
             self.loaded = []
@@ -33,10 +33,9 @@ class SearchNode(object):
         query = ros_data.data.replace(" ","+")
         prefix = ros_data.data.replace(" ","_")
         max_images = 5
-        save_directory = 'searchRes'
+        save_directory = '/home/pi/searchRes'
 
         if prefix not in self.loaded:
-            self.loaded.append(prefix)
 
             # url header configs
             image_type="Action"
@@ -52,31 +51,35 @@ class SearchNode(object):
 
             # retrieving all high res images
             rospy.loginfo("Downloading images of '%s'..." % (ros_data.data))
+            count = 0
             if not os.path.exists(save_directory): os.mkdir(save_directory)
-            for i , (img , Type) in enumerate(ActualImages[0:max_images]):
-                try:
-                    req = urllib2.Request(img, headers=header)
-                    raw_img = urllib2.urlopen(req).read()
-                    if len(Type)==0:
-                        f = open(str(os.path.join(save_directory , prefix + "_%02d.jpg"%(i))), 'wb')
-                    else :
-                        f = open(str(os.path.join(save_directory , prefix + "_%02d."%(i) + Type)), 'wb')
-                    f.write(raw_img)
-                    f.close()
-                    rospy.loginfo( "Image %02d of %02d downloaded..." % (i+1,max_images))
-
-                except Exception as e:
-                    print("could not load : "+img)
-                    print(e)
+                for i , (img , Type) in enumerate(ActualImages[0:max_images]):
+                    try:
+                        req = urllib2.Request(img, headers=header)
+                        raw_img = urllib2.urlopen(req).read()
+                        if len(Type)==0:
+                            f = open(str(os.path.join(save_directory , prefix + "_%02d.jpg"%(i))), 'wb')
+                        else :
+                            f = open(str(os.path.join(save_directory , prefix + "_%02d."%(i) + Type)), 'wb')
+                        f.write(raw_img)
+                        f.close()
+                        rospy.loginfo( "Image %02d of %02d downloaded..." % (i+1,max_images))
+                        count += 1
+                    except Exception as e:
+                        print("could not load : "+img)
+                        print(e)
 
             resp = Bool()
-            resp.data = True
+            resp.data = True if count > 0 else False
             self.pub.publish(resp)
 
-            with open("searchRes/loaded.txt","w") as file:
-                json.dump(self.loaded,file)
+
+            if resp.data: 
+                self.loaded.append(prefix)
+                with open("/home/pi/searchRes/loaded.txt","w") as file:
+                    json.dump(self.loaded,file)
         else:
-            rospy.loginfo("Images of '%s' has previously been downloaded" % prefix)
+            rospy.loginfo("Images of '%s' has previously been downloaded" % ros_data.data)
             resp = Bool()
             resp.data = True
             self.pub.publish(resp)
