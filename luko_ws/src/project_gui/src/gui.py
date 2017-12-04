@@ -10,6 +10,7 @@ import cv2
 import rospy
 from imagehandler import ImageHandler
 from std_msgs.msg import String, Bool
+from mbed_interface.msg import JointAngles
 
 # dimension of the display
 screen_cols = 1920 #1182
@@ -37,6 +38,7 @@ class ScreenHandler(object):
         # initialize pubsub topics
         self.sub_request = rospy.Subscriber("search_images/query", String, self.callback_request, queue_size = 1)
         self.sub_status = rospy.Subscriber("search_images/status_flag", Bool, self.callback_status, queue_size = 1)
+        self.sub_angles = rospy.Subscriber("mbed/get_current_angle", JointAngles, self.callback_angles, queue_size = 1)
         self.query = None
 
     def callback_request(self,data):
@@ -55,6 +57,10 @@ class ScreenHandler(object):
                 except:
                     pass
 
+    def callback_angles(self,data):
+        # subscribed to "mbed/get_current_angles" topic
+        pass
+
     def run(self):
         r = rospy.Rate(30)
         try:
@@ -72,7 +78,6 @@ class ScreenHandler(object):
                 pygame.display.update()
 
                 self.theta = self.theta+3 if self.theta < 87 else 0
-                #self.clock.tick(60)
                 r.sleep()
 
         except KeyboardInterrupt, SystemExit:
@@ -80,10 +85,9 @@ class ScreenHandler(object):
             cv2.destroyAllWindows()
         
 if __name__ == "__main__":
-    #exts = ['.jpg','.jpeg','.png','.gif']
-    #print [path for ext in exts for path in os.listdir('/home/pi/searchRes') if path.endswith(ext)]
     gui =  ScreenHandler()
 
     rospy.init_node('Projection_GUI', anonymous = True)
     rospy.loginfo('Running GUI display...')
     gui.run()
+    rospy.loginfo('Terminating GUI display')
