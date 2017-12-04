@@ -47,18 +47,23 @@ intent_map = {
         'smalltalk.user.sleepy'         : ['sleepy.wav', 5],
         'smalltalk.user.testing\_agent' : ['test.wav', 2],
         'test_intent'                   : ['a.wav', 3],
-        'default'                       : ['e.wav', 5]
+        'default'                       : ['e.wav', 3]
     }
 
 
 def play(intent):
 
+    ''' Full implementation disabled for now until all sound files present
     try:
         audio_file = intent_map[intent][0]
         rate = intent_map[intent][1] + (randint(-9,9)/10)
     except KeyError:
         audio_file = intent_map["default"][0]
         rate = intent_map["default"][1] + (randint(-9,9)/10)
+    '''
+
+    audio_file = intent_map["default"][0]
+    rate = intent_map["default"][1] + (randint(-9,9)/10)
 
     song = AudioSegment.from_wav("sounds/" + audio_file)
 
