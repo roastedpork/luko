@@ -71,7 +71,7 @@ class SoundEngine:
         '''
 
         audio_file = intent_map["default"][0]
-        rate = intent_map["default"][1] + (randint(-9,9)/10)
+        rate = intent_map["default"][1] + (randint(-9,9)/10.0)
 
         song = AudioSegment.from_wav("sounds/" + audio_file)
 

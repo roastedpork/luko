@@ -8,8 +8,8 @@ import pygame
 import cv2
 
 # dimension of the display
-screen_cols = 1920 #1182
-screen_rows = 1080 #624
+screen_cols = 624 #1920 #1182
+screen_rows = 1182 #1080 #624
 
 # initialise GUI environment
 pygame.init()
@@ -104,12 +104,12 @@ class ImageHandler(object):
 
 if __name__ == "__main__":
 	# load cv2 image
-	phi = 30
+	phi = 0
 	theta = 0
 	
 	paths = ['images/grid30.png','images/grid_rect.png', 'images/dog_bg_black.jpg']	
 	imgs = [ImageHandler(path) for path in paths]
-	ind = 0
+	ind = 2
 
 
 	# main running loop
@@ -126,7 +126,7 @@ if __name__ == "__main__":
 			imgs[ind].display(screen)
 			theta = theta + 3 if theta < 90 else 0
 			pygame.display.update()
-			if random.randint(0,20) < 2: ind = 0 if ind else 1
+			#if random.randint(0,20) < 2: ind = 0 if ind else 1
 			clock.tick(60)
 
 	except KeyboardInterrupt or SystemExit:

@@ -26,7 +26,7 @@ BUFFER_CLEAR = 90
 
 class led_interface:
     def __init__(self):
-        self.sub = rospy.Subscriber("send_image", LightDriver, self.callback, queue_size=1)
+        self.sub = rospy.Subscriber("send_image", LightDriver, self.callback, queue_size=10)
         self.serial = serial.Serial(
             port="/dev/ttyAMA0",
             baudrate=115200,
@@ -44,15 +44,15 @@ class led_interface:
             msg_str = ''
             nPixels = data.nPixels
             msg_str += "%02x%02x%02x"% (int(data.r[0]),int(data.g[0]),int(data.b[0]))
-            for i in range(1,len(nPixels)):
+            for i in range(1,nPixels):
                 msg_str += " %02x%02x%02x"% (int(data.r[i]),int(data.g[i]),int(data.b[i]))
             msg_str += '\n'
 
         elif data.op == 'fill':
-            msg_str += "\# %02x%02x%02x\n"% (int(data.r[0]),int(data.g[0]),int(data.b[0]))
+            msg_str = "# %02x%02x%02x\n"% (int(data.r[0]),int(data.g[0]),int(data.b[0]))
 
         rospy.loginfo(msg_str)
-        #self.serial.write(msg_str)
+        self.serial.write(msg_str)
 	
 	
 

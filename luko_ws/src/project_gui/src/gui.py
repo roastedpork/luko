@@ -91,3 +91,4 @@ if __name__ == "__main__":
     rospy.loginfo('Running GUI display...')
     gui.run()
     rospy.loginfo('Terminating GUI display')
+
