@@ -1,0 +1,8 @@
+controller_list:
+  - name: fake_arm_head_controller
+    joints:
+      - cylinder_joint
+      - low_joint0
+      - up_joint0
+      - head_bearing_link
+      - head_to_lamp
