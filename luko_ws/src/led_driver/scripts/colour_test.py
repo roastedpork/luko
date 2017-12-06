@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from led_driver.msg import LightDriver
 import numpy as np
 import rospy
@@ -6,7 +8,7 @@ state = 4*np.array([[0,1,0],[-1,0,0],[0,0,1],[0,-1,0],[1,0,0],[0,0,-1]])
 
 colour = np.array([100,0,0])
 
-pub = rospy.Publisher("send_image",LightDriver,queue_size = 10)
+pub = rospy.Publisher("send_image",LedArray,queue_size = 10)
 
 
 rospy.init_node('colour_sender', anonymous = True)

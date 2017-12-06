@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from led_driver.msg import LightDriver
+from led_driver.msg import LedArray
 import rospy
 import serial
 
@@ -26,7 +26,7 @@ BUFFER_CLEAR = 90
 
 class led_interface:
     def __init__(self):
-        self.sub = rospy.Subscriber("send_image", LightDriver, self.callback, queue_size=10)
+        self.sub = rospy.Subscriber("send_image", LedArray, self.callback, queue_size=10)
         self.serial = serial.Serial(
             port="/dev/ttyAMA0",
             baudrate=115200,
