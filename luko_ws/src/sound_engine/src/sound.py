@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # sound.py
 # Contains mapping of Dialogflow Intents to WAV files and sample rates and a play function that randomises sample rate slightly
 
@@ -53,7 +54,7 @@ intent_map = {
         'default'             : ['e.wav', 3]
     }
 
-class SoundEngine(object):
+class SoundEngine:
     def __init__(self):
         # initialize pubsub topics
         self.sub_play = rospy.Subscriber("smalltalk", String, self.callback_play, queue_size = 1)
@@ -70,7 +71,7 @@ class SoundEngine(object):
         '''
 
         audio_file = intent_map["default"][0]
-        rate = intent_map["default"][1] + (randint(-9,9)/10)
+        rate = intent_map["default"][1] + (randint(-9,9)/10.0)
 
         song = AudioSegment.from_wav("sounds/" + audio_file)
 
@@ -87,3 +88,9 @@ class SoundEngine(object):
         # Play generated sound file and then delete the file
         os.system("aplay " + filename)
         os.remove(filename)
+
+if __name__ == '__main__':
+    sound = SoundEngine()
+    rospy.init_node('SoundEngine', anonymous=True)
+    rospy.loginfo('Listening for smalltalk...')
+    rospy.spin()
