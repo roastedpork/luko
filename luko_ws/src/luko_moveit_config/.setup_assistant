@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ""
+    relative_path: /vagrant/luko/urdf/luko.urdf
+  SRDF:
+    relative_path: config/luko.srdf
+  CONFIG:
+    author_name: Piotr
+    author_email: p.pomien@gmail.com
+    generated_timestamp: 1512424174

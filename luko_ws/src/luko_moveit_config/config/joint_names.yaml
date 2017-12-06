@@ -1,0 +1,1 @@
+controller_joint_names: [cylinder_joint, low_joint0, up_joint0, head_bearing_link, head_to_lamp]

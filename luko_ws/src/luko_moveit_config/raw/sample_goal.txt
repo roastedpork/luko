@@ -1,0 +1,192 @@
+header: 
+  seq: 0
+  stamp: 
+    secs: 1512475819
+    nsecs: 407434219
+  frame_id: ''
+goal_id: 
+  stamp: 
+    secs: 1512475819
+    nsecs: 407445660
+  id: /rviz_ubuntu_xenial_4887_6592647277641561422-1-1512475819.407445660
+goal: 
+  request: 
+    workspace_parameters: 
+      header: 
+        seq: 0
+        stamp: 
+          secs: 1512475819
+          nsecs: 406892741
+        frame_id: /base_link
+      min_corner: 
+        x: -1.0
+        y: -1.0
+        z: -1.0
+      max_corner: 
+        x: 1.0
+        y: 1.0
+        z: 1.0
+    start_state: 
+      joint_state: 
+        header: 
+          seq: 0
+          stamp: 
+            secs: 0
+            nsecs:         0
+          frame_id: /base_link
+        name: ['cylinder_joint', 'low_joint0', 'low_joint2', 'up_joint0', 'up_joint2', 'head_bearing_link', 'head_to_lamp', 'up_joint1', 'low_joint1']
+        position: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        velocity: []
+        effort: []
+      multi_dof_joint_state: 
+        header: 
+          seq: 0
+          stamp: 
+            secs: 0
+            nsecs:         0
+          frame_id: /base_link
+        joint_names: []
+        transforms: []
+        twist: []
+        wrench: []
+      attached_collision_objects: []
+      is_diff: False
+    goal_constraints: 
+      - 
+        name: ''
+        joint_constraints: 
+          - 
+            joint_name: cylinder_joint
+            position: -0.753412328893
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: low_joint0
+            position: 1.41788914137
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: low_joint2
+            position: -1.41788914137
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: up_joint0
+            position: -1.2892385945
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: up_joint2
+            position: 1.2892385945
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: head_bearing_link
+            position: -0.275281745028
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: head_to_lamp
+            position: 0.697850174601
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+        position_constraints: []
+        orientation_constraints: []
+        visibility_constraints: []
+    path_constraints: 
+      name: ''
+      joint_constraints: []
+      position_constraints: []
+      orientation_constraints: []
+      visibility_constraints: []
+    trajectory_constraints: 
+      constraints: []
+    planner_id: ''
+    group_name: arm_head
+    num_planning_attempts: 10
+    allowed_planning_time: 5.0
+    max_velocity_scaling_factor: 1.0
+    max_acceleration_scaling_factor: 1.0
+  planning_options: 
+    planning_scene_diff: 
+      name: ''
+      robot_state: 
+        joint_state: 
+          header: 
+            seq: 0
+            stamp: 
+              secs: 0
+              nsecs:         0
+            frame_id: ''
+          name: []
+          position: []
+          velocity: []
+          effort: []
+        multi_dof_joint_state: 
+          header: 
+            seq: 0
+            stamp: 
+              secs: 0
+              nsecs:         0
+            frame_id: ''
+          joint_names: []
+          transforms: []
+          twist: []
+          wrench: []
+        attached_collision_objects: []
+        is_diff: True
+      robot_model_name: ''
+      fixed_frame_transforms: []
+      allowed_collision_matrix: 
+        entry_names: []
+        entry_values: []
+        default_entry_names: []
+        default_entry_values: []
+      link_padding: []
+      link_scale: []
+      object_colors: []
+      world: 
+        collision_objects: []
+        octomap: 
+          header: 
+            seq: 0
+            stamp: 
+              secs: 0
+              nsecs:         0
+            frame_id: ''
+          origin: 
+            position: 
+              x: 0.0
+              y: 0.0
+              z: 0.0
+            orientation: 
+              x: 0.0
+              y: 0.0
+              z: 0.0
+              w: 0.0
+          octomap: 
+            header: 
+              seq: 0
+              stamp: 
+                secs: 0
+                nsecs:         0
+              frame_id: ''
+            binary: False
+            id: ''
+            resolution: 0.0
+            data: []
+      is_diff: True
+    plan_only: True
+    look_around: False
+    look_around_attempts: 0
+    max_safe_execution_cost: 0.0
+    replan: False
+    replan_attempts: 0
+    replan_delay: 0.0
