@@ -8,13 +8,15 @@ import numpy as np
 import pygame
 import cv2
 import rospy
+import json
 from imagehandler import ImageHandler
 from std_msgs.msg import String, Bool
+from speech_recognition.msg import Intent
 from mbed_interface.msg import JointAngles
 
 # dimension of the display
-screen_cols = 1920 #1182
-screen_rows = 1080 #624
+screen_cols = 1080 #1920 #1182
+screen_rows = 1920 #1080 #624
 
 
 
@@ -22,7 +24,7 @@ class ScreenHandler(object):
     def __init__(self):
         # initialize GUI environment
         pygame.init()
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE #| pygame.NOFRAME | pygame.FULLSCREEN
+        flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.NOFRAME | pygame.FULLSCREEN
         self.screen = pygame.display.set_mode((screen_cols,screen_rows), flags)
         self.screen.fill([0,0,0])
         pygame.mouse.set_visible(False)
@@ -33,16 +35,19 @@ class ScreenHandler(object):
         self.info = pygame.display.Info()
         self.image = None #ImageHandler('/home/pi/searchRes/dogs_black_background_04.jpg')
         self.rot =  0
-        self.theta = 0
+        self.theta = 45
 
         # initialize pubsub topics
-        self.sub_request = rospy.Subscriber("search_images/query", String, self.callback_request, queue_size = 1)
+        self.sub_request = rospy.Subscriber("search_images/query", Intent, self.callback_request, queue_size = 1)
         self.sub_status = rospy.Subscriber("search_images/status_flag", Bool, self.callback_status, queue_size = 1)
         self.sub_angles = rospy.Subscriber("mbed/get_current_angle", JointAngles, self.callback_angles, queue_size = 1)
         self.query = None
 
     def callback_request(self,data):
-        self.query = data.data
+        params = json.loads(data.params)
+        if data.action == 'image':
+            self.query = " ".join(params['image']) + "" if params['no_blk'] == "1" else ' black background'
+            
 
     def callback_status(self,data):
         exts = ['.jpg','.jpeg','.png','.gif']
@@ -66,8 +71,8 @@ class ScreenHandler(object):
         try:
             while not rospy.is_shutdown():
                 for event in pygame.event.get():
-                    #if event.type == pygame.KEYDOWN:
-                    #    sys.exit(0)
+                    if event.type == pygame.KEYDOWN:
+                        sys.exit(0)
                     rospy.loginfo(event)
 
                 self.screen.fill([0,0,0])                    
@@ -77,7 +82,7 @@ class ScreenHandler(object):
                     self.image.display(self.screen)
                 pygame.display.update()
 
-                self.theta = self.theta+3 if self.theta < 87 else 0
+                #self.theta = self.theta+3 if self.theta < 87 else 0
                 r.sleep()
 
         except KeyboardInterrupt, SystemExit:

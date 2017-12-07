@@ -2,7 +2,7 @@
 
 import rospy
 from std_msgs.msg import String, Bool
-
+from speech_recognition.msg import Intent
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -17,7 +17,7 @@ import json
 
 class SearchNode(object):
     def __init__(self):
-        self.sub = rospy.Subscriber("search_images/query", String, self.callback, queue_size = 1)
+        self.sub = rospy.Subscriber("search_images/query", Intent, self.callback, queue_size = 1)
         self.pub = rospy.Publisher("search_images/status_flag", Bool, queue_size = 1)
 
         if os.path.isfile("/home/pi/searchRes/loaded.txt"):
@@ -27,32 +27,37 @@ class SearchNode(object):
             self.loaded = []
 
     def callback(self,ros_data):
-	rospy.loginfo("searching for images of '%s'..." % (ros_data.data))
-
-        # search parameters
-        query = ros_data.data.replace(" ","+")
-        prefix = ros_data.data.replace(" ","_")
-        max_images = 5
-        save_directory = '/home/pi/searchRes'
-
-        if prefix not in self.loaded:
-
-            # url header configs
-            image_type="Action"
-            url="https://www.google.co.in/search?q="+query+"&source=lnms&tbm=isch"
-            header={'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36"}
-            soup = BeautifulSoup(urllib2.urlopen(urllib2.Request(url,headers=header)),'html.parser')
-
-            # parsing for all links to high res images in html
-            ActualImages=[]
-            for a in soup.find_all("div",{"class":"rg_meta"}):
-                link , Type =json.loads(a.text)["ou"]  ,json.loads(a.text)["ity"]
-                ActualImages.append((link,Type))
-
-            # retrieving all high res images
-            rospy.loginfo("Downloading images of '%s'..." % (ros_data.data))
-            count = 0
-            if not os.path.exists(save_directory): os.mkdir(save_directory)
+        params = json.loads(ros_data.params)
+        if ros_data.action == 'image':
+            query_text = " ".join(params['image'])
+            rospy.loginfo("searching for images of '%s'..." % (query_text))
+    
+    
+            # search parameters
+            query = query_text + '' if params['no_blk'] == "1" else " black background"
+            search = query.replace(" ","+")
+            prefix = query.replace(" ","_")
+            max_images = 5
+            save_directory = '/home/pi/searchRes'
+    
+            if prefix not in self.loaded:
+    
+                # url header configs
+                image_type="Action"
+                url="https://www.google.co.in/search?q="+search+"&source=lnms&tbm=isch"
+                header={'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36"}
+                soup = BeautifulSoup(urllib2.urlopen(urllib2.Request(url,headers=header)),'html.parser')
+    
+                # parsing for all links to high res images in html
+                ActualImages=[]
+                for a in soup.find_all("div",{"class":"rg_meta"}):
+                    link , Type =json.loads(a.text)["ou"]  ,json.loads(a.text)["ity"]
+                    ActualImages.append((link,Type))
+    
+                # retrieving all high res images
+                rospy.loginfo("Downloading images of '%s'..." % (query_text))
+                count = 0
+                if not os.path.exists(save_directory): os.mkdir(save_directory)
                 for i , (img , Type) in enumerate(ActualImages[0:max_images]):
                     try:
                         req = urllib2.Request(img, headers=header)
@@ -68,21 +73,21 @@ class SearchNode(object):
                     except Exception as e:
                         print("could not load : "+img)
                         print(e)
-
-            resp = Bool()
-            resp.data = True if count > 0 else False
-            self.pub.publish(resp)
-
-
-            if resp.data: 
-                self.loaded.append(prefix)
-                with open("/home/pi/searchRes/loaded.txt","w") as file:
-                    json.dump(self.loaded,file)
-        else:
-            rospy.loginfo("Images of '%s' has previously been downloaded" % ros_data.data)
-            resp = Bool()
-            resp.data = True
-            self.pub.publish(resp)
+    
+                resp = Bool()
+                resp.data = True if count > 0 else False
+                self.pub.publish(resp)
+    
+    
+                if resp.data: 
+                    self.loaded.append(prefix)
+                    with open("/home/pi/searchRes/loaded.txt","w") as file:
+                        json.dump(self.loaded,file)
+            else:
+                rospy.loginfo("Images of '%s' has previously been downloaded" % (query_text))
+                resp = Bool()
+                resp.data = True
+                self.pub.publish(resp)
 
 if __name__ == '__main__':
     print "Initializing google images search node..."
