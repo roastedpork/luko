@@ -26,9 +26,10 @@ class mbed_interface:
     def readSerialIn(self,str):
         try:
             strip = "".join([c for c in str if hex(c)])
-            res = [int(strip[i:i+2],16) for i in range(0,10,2)]
+            res = [mp.radians(int(strip[i:i+2],16)) for i in range(0,10,2)]
         except:
-            res = []
+            res = [0, 0, 0, 0, 0]
+
         return res
 
     def callback(self,ros_data):
@@ -49,8 +50,9 @@ class mbed_interface:
             readout = self.serial.readline()
 
             msg = JointState()
+             
+            joints = self.readSerialIn(self.serial.readline())
             
-            joints[] = self.readSerialIn(self.serial.readline())
             self.serial.flushInput() # we want to get the latest values
 
             msg.header = Header()

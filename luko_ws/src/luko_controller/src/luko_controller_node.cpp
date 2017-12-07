@@ -32,8 +32,9 @@ public:
   void goalCB()
   {
     // accept the new goal
-    goal_ = as_.acceptNewGoal()->samples;
-  ROS_INFO("new goal");
+    trajectory_msgs::JointTrajectory goal;
+    goal = as_.acceptNewGoal()->trajectory;
+    ROS_INFO("new goal");
 
   }
 
