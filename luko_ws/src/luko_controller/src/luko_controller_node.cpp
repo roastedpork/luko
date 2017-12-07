@@ -33,7 +33,8 @@ public:
   {
     // accept the new goal
     goal_ = as_.acceptNewGoal()->samples;
-  
+  ROS_INFO("new goal");
+
   }
 
   void preemptCB()
@@ -50,6 +51,8 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "action_server");
 
   RobotTrajectoryFollower RobotTrajectoryFollower("/joint_trajectory_action");
+  ROS_INFO("Launched action server");
+
   ros::spin();
 
   return 0;

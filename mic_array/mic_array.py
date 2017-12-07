@@ -83,6 +83,44 @@ class MicArray(object):
             return False
         self.stop()
 
+
+    def _suppress_noise(self, buf, doa):
+        inc_mic = int(round(doa/60.0)%6+1)
+        far_mic = int((inc_mic+3)%6)
+        if far_mic == 0: far_mic=6
+
+        theta = (np.array([inc_mic,far_mic])-1)*60-(180-doa)
+
+        delta_frames = [int(round(self.sample_rate*MAX_TDOA_6P1*((1.0-math.cos(math.radians(x)))/2.0))) for x in theta]
+        frames_inc = buf[inc_mic+8*(3-delta_frames[0])::self.channels]
+        frames_far = buf[inc_mic+8*(3-delta_frames[1])::self.channels]
+
+        max_len = min(len(frames_inc),len(frames_far))
+
+        res = (frames_inc[:max_len]+frames_far[:max_len])/2.0
+
+        return res.astype(np.int16)
+
+    def suppress_noise(self, buff, doa):
+        # Initialise microphone angles relative to the signal DOA
+        angle_offsets = np.arange(0,360,60)-(180-doa)
+        # Calculate frame delay for each sensor proportional to array geometry & max delay
+        delay_frames = [(MAX_TDOA_6P1*self.sample_rate*(1.0-math.cos(math.radians(theta )))/2.0) for theta in angle_offsets]
+
+        delay_frames_discrete = [int(round(x)) for x in delay_frames]
+
+        delay_output = [[]]*6
+
+        for i in range(6):
+            delay_output[i] = np.array(buff[(i+1+(3-delay_frames_discrete[i])*8)::8])
+
+        max_len = min([len(out) for out in delay_output])
+        avg = delay_output[0][:max_len]
+        for i in range(1,len(delay_output)):
+            avg += delay_output[i][:max_len]
+        avg /= 6.0
+        return avg.astype(np.int16)
+
     def get_direction(self, buf):
         best_guess = None
         if self.channels == 8:
@@ -134,6 +172,7 @@ class MicArray(object):
         elif self.channels == 2:
             pass
 
+        print(tau)
         return best_guess
 
 
@@ -173,6 +212,7 @@ def test_8mic():
  
     with MicArray(16000, 8, 16000 / 4)  as mic:
         for chunk in mic.read_chunks():
+            print(len(chunk))
             direction = mic.get_direction(chunk)
             pixel_ring.set_direction(direction)
             print(int(direction))
