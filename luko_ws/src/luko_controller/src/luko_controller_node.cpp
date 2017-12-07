@@ -32,7 +32,8 @@ public:
   void goalCB()
   {
     // accept the new goal
-//    goal_ = as_.acceptNewGoal()->samples;
+    goal_ = as_.acceptNewGoal()->samples;
+  
   }
 
   void preemptCB()

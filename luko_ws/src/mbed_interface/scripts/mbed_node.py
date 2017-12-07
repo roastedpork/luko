@@ -2,6 +2,8 @@
 import rospy
 import serial
 from mbed_interface.msg import JointAngles
+from sensor_msgs.msg import JointState
+from std_msgs.msg import Header
 
 hex = lambda x : '0'<=x<='9' or 'a'<=x<='f'
 
@@ -39,15 +41,22 @@ class mbed_interface:
            
     def run(self):
         r = rospy.Rate(10)
+        pub = rospy.Publisher('joint_states', JointState, queue_size=10)
+        rospy.init_node('joint_state_publisher')
 
         while not rospy.is_shutdown():
             ### create current_angle msg and publish ###
             readout = self.serial.readline()
 
-            msg = JointAngles()
-            msg.joints = self.readSerialIn(self.serial.readline())
+            msg = JointState()
+            
+            joints[] = self.readSerialIn(self.serial.readline())
             self.serial.flushInput() # we want to get the latest values
-	    rospy.loginfo("Current: " + ", ".join([str(i) for i in msg.joints]))
+
+            msg.header = Header()
+            msg.header.stamp = rospy.Time.now()
+	    msg.name = ['cylinder_joint', 'low_joint0', 'low_joint1', 'low_joint2', 'up_joint0', 'up_joint1', 'up_joint2', 'head_bearing_link', 'head_to_lamp']
+	    msg.position = [joints[0], joints[1], joints[1], -joints[1], joints[2], joints[2], -joints[2], joints[3], joints[4]]
             self.pub.publish(msg)
 	    r.sleep()
 
