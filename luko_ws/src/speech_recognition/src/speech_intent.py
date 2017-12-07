@@ -2,6 +2,7 @@
 
 import rospy
 from speech_recognition.msg import Intent
+from std_msgs.msg import String
 
 import sys
 import numpy as np
@@ -49,6 +50,7 @@ class speech_recognition:
                 'light' : rospy.Publisher("intent/light", Intent, queue_size=10),
                 'movement' : rospy.Publisher("intent/movement", Intent, queue_size=10),
                 'player' : rospy.Publisher("intent/player", Intent, queue_size=10),
+                'project' : rospy.Publisher("search_images/query", Intent, queue_size=10)
                 }
 
         self.detector = SnowboyDetect('snowboy/resources/common.res', 'speech_recognition/src/hey_luko.pmdl')
@@ -147,6 +149,9 @@ class speech_recognition:
                         # Detect keyword from channel 0
                         ans = self.detector.RunDetection(chunk[0::CHANNELS].tostring())
                         if ans > 0:
+                            msg = Intent()
+                            msg.action = 'hey_luko'
+                            self.pub['generic'].publish(msg)
                             frames = np.concatenate(history)
                             direction = mic.get_direction(frames)
                             pixel_ring.set_direction(direction)

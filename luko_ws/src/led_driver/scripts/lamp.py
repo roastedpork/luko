@@ -109,7 +109,7 @@ while not rospy.is_shutdown():
         elif(brightDiff<0):
             currBright -= VEL
         setLight(currWarmth, currBright)
-    else:
+    else :
         currWarmth = targWarmth
         currBright = targBright
     r.sleep()
