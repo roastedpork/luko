@@ -27,9 +27,7 @@
   <!--   - this typically includes: robot_state, motion_interface, and joint_trajectory_action nodes -->
   <!--   - replace these calls with appropriate robot-specific calls or launch files -->
   <group unless="$(arg sim)">
-    <node name="mbed_node" pkg="mbed_interface" type="mbed_node.py" />
     <node name="luko_controller" pkg="luko_controller" type="luko_controller_node" />
-   <node name="current_angle" pkg="mbed_interface" type="current_angle.py" />
   </group>
 
   <!-- publish the robot state (tf transforms) -->
@@ -37,6 +35,11 @@
 
   <include file="$(find luko_moveit_config)/launch/move_group.launch">
     <arg name="publish_monitored_planning_scene" value="true" />
+  </include>
+
+  <!-- Run Rviz and load the default config to see the state of the move_group node -->
+  <include file="$(find luko_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
   </include>
 
 <!--  <include file="$(find luko_moveit_config)/launch/default_warehouse_db.launch" /> -->
