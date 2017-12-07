@@ -12,7 +12,7 @@ class bmp2led:
         self.sub_image = rospy.Subscriber("display_image", String, self.callback, queue_size = 1)
         self.pub_image = rospy.Publisher('send_image', LedArray, queue_size=10)
 
-    def bmp2rgb(self,img_file):
+    def bmp2rgb_andrew(self,img_file):
         img = Image.open(img_file)
         rgb_im = img.convert('RGB')
 
@@ -29,6 +29,20 @@ class bmp2led:
         r = np.delete(r_flat, [0,8,size-18,size-10,size-9,size-8,size-2,size-1])
         g = np.delete(g_flat, [0,8,size-18,size-10,size-9,size-8,size-2,size-1])
         b = np.delete(b_flat, [0,8,size-18,size-10,size-9,size-8,size-2,size-1])
+
+        return r,g,b
+    
+    def bmp2rgb(self,img_file):
+        img = Image.open(img_file)
+        rgb_im = img.convert('RGB')
+
+        arr = np.array(rgb_im)
+
+        [r_raw,g_raw,b_raw] = np.dsplit(arr,arr.shape[-1])
+
+        r = r_raw.flatten()
+        g = g_raw.flatten()
+        b = b_raw.flatten()
 
         return r,g,b
 
