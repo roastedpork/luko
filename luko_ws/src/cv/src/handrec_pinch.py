@@ -38,6 +38,8 @@ class cv:
         while not rospy.is_shutdown():
      # Clear the IO of the previous buffer
             stream = io.BytesIO()
+			open = 0
+			closed = 0
             for raw in camera.capture_continuous(stream,format='jpeg'):
                 frame = cv2.imdecode(np.fromstring(stream.getvalue(),dtype=np.uint8),1)
                 stream.truncate()
@@ -59,55 +61,76 @@ class cv:
                     try:
                         sortedContours = sorted(contours,key = cv2.contourArea, reverse=True) 
                         max_cnt  = sortedContours[0]
-                        max_cnt2 = sortedContours[1]
-                        M1 = cv2.moments(max_cnt)
-                        M2 = cv2.moments(max_cnt2)
-                        cx1 = int(M1['m10']/M1['m00'])
-                        cy1 = int(M1['m01']/M1['m00'])
-                        cx2 = int(M2['m10']/M2['m00'])
-                        cy2 = int(M2['m01']/M2['m00'])
-                        dx = cx2 - cx1
-                        dy = cy2 - cy1
+						max_cnt2 = sortedContours[1]
+                        
+						M1 = cv2.moments(max_cnt)
+						cx1 = int(M1['m10']/M1['m00'])
+						cy1 = int(M1['m01']/M1['m00'])
 
-                        #coords of mid point between hands
-                        mpx = cx1+0.5*dx
-                        mpy = cy1+0.5*dy
+						if cv2.contourArea(max_cnt2) > 0.7*cv2.contourArea(max_cnt)
+							M2 = cv2.moments(max_cnt2)
+							cx2 = int(M2['m10']/M2['m00'])						
+							cy2 = int(M2['m01']/M2['m00'])
+							dx = cx2 - cx1
+							dy = cy2 - cy1							
+							#coords of mid point between hands
+							mpx = cx1+0.5*dx
+							mpy = cy1+0.5*dy
 
-                        msg = Radial()
-                        msg.radius = new_luko_dist
-                        msg.theta = theta
-                        self.pub.publish(msg)
+							cv2.circle(frame, (cx2,cy2), 3, (0,0,255), -1)
+							#cv2.drawContours(frame,[approx],0,(0,255,0),1)
+
+						
+						#msg = Radial()
+                        #msg.radius = new_luko_dist
+                        #msg.theta = theta
+                        #self.pub.publish(msg)
 
                         #cv2.circle(frame,tuple(hull[minIndex,0,:]),3,(163,50,204),-1)
-                        cv2.circle(frame, (cx,cy), 3, (0,0,255), -1)
-                        cv2.drawContours(frame,[approx],0,(0,255,0),1)
-
+                        cv2.circle(frame, (cx1,cy1), 3, (0,0,255), -1)
+                        #cv2.drawContours(frame,[approx],0,(0,255,0),1)
                         calc = True
 
                     except Exception as e:
                         calc = False
                         print e
 
-                handDist = np.sqrt(np.power(dx, 2)+ np.power (dy, 2))
-                if handDist < 50
+                handDist = np.sqrt(np.power(dx, 2)+ np.power (dy, 2))				
+				
+				if handDist < 50 #if hand closed
+					closed = 1
+					if open == 1
+						zoomIn = 1
+						open = 0
                     sleep(50)
+					
+				if handDist > 100 #if hand open
+					open = 1
+					if closed == 1
+						zoomOut = 1                
+						closed = 0
+					sleep(50)
+				
+				print open
+				print closed
+				print zoonIn
+				print zoomOut
 
-
-                # Operations on the frame
+				
+				# Operations on the frame
                 skin = cv2.bitwise_and(frame, frame, mask = skinMask)
                 if len(contours) > 0 and calc:
-                    cv2.circle(skin, (cx,cy), 3, (0,0,255))
-
-                skin=cv2.flip(skin,1)
-
+                    cv2.circle(skin, (cx1,cy1), 3, (0,0,255))
+                    cv2.circle(skin, (cx2,cy2), 3, (0,0,255))
+				skin=cv2.flip(skin,1)
                 # Display frame in a window
                 #cv2.imshow('Frame',frame)
                 cv2.imshow('Filtered Frame',skin)
                 #cv2.imshow('mask',skinMask)
-                interrupt=cv2.waitKey(1)
+                #interrupt=cv2.waitKey(1)
                 # Quit by pressing 'q'
-                if  interrupt & 0xFF == ord('q'):
-                    break
+                #if  interrupt & 0xFF == ord('q'):
+                    #break
 
 
 if __name__ == '__main__':
