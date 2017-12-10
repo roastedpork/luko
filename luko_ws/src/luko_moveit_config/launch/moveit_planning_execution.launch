@@ -27,7 +27,8 @@
   <!--   - this typically includes: robot_state, motion_interface, and joint_trajectory_action nodes -->
   <!--   - replace these calls with appropriate robot-specific calls or launch files -->
   <group unless="$(arg sim)">
-    <node name="luko_controller" pkg="luko_controller" type="luko_controller_node" />
+    <node name="luko_controller" pkg="luko_controller" type="luko_controller_node" /> 
+    <node name="luko_joint_loop" pkg="luko_moveit_config" type="luko_joint_loop.py" />
   </group>
 
   <!-- publish the robot state (tf transforms) -->
