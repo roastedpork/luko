@@ -28,14 +28,14 @@ lower = np.array([0,30,50], dtype=np.uint8)
 upper = np.array([30,255,255], dtype=np.uint8)
 
 class cv:
-    def __init__(self):
-        self.pub = rospy.Publisher('chatter', Radial, queue_size=10)
+    #def __init__(self):
+        #self.pub = rospy.Publisher('chatter', Radial, queue_size=10)
 
     def findDistance(self,A,B):
         return np.sqrt(np.power((A[0]-B[0]),2) + np.power((A[1]-B[1]),2))
 
     def run(self):
-        while not rospy.is_shutdown():
+        while(1): #not rospy.is_shutdown():
      # Clear the IO of the previous buffer
             stream = io.BytesIO()
             handOpen = 0
@@ -44,7 +44,7 @@ class cv:
                 frame = cv2.imdecode(np.fromstring(stream.getvalue(),dtype=np.uint8),1)
                 stream.truncate()
                 stream.seek(0)
-
+                print "aaa"
                 # Convert to HSV colour space
                 frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
                 skinMask = cv2.inRange(frame_hsv, lower, upper)
@@ -65,6 +65,9 @@ class cv:
 			M1 = cv2.moments(max_cnt)
 			cx1 = int(M1['m10']/M1['m00'])
 			cy1 = int(M1['m01']/M1['m00'])
+                        cx2 = 0
+                        cy2 = 0
+
 
                         if cv2.contourArea(max_cnt2) > 0.7*cv2.contourArea(max_cnt):
                             M2 = cv2.moments(max_cnt2)
@@ -76,8 +79,32 @@ class cv:
                             mpx = cx1+0.5*dx
                             mpy = cy1+0.5*dy
 
-                            cv2.circle(frame, (cx2,cy2), 3, (0,0,255), -1)
                             #cv2.drawContours(frame,[approx],0,(0,255,0),1)
+                            zoomIn = 0
+                            zoomOut = 0
+                            handDist = np.sqrt(np.power(dx, 2)+ np.power (dy, 2))
+                            if handDist < 100: #if hand closed
+                                handClosed = 1
+                                if handOpen == 1: #if hand was open 500ms ago
+                                    zoomOut = 1
+                                    handOpen = 0
+                                #time.sleep(0.25)
+
+                            if handDist > 1000: #if hand open    
+                                handOpen = 1
+                                if handClosed == 1: #if hand was closed 500ms ago
+                                    zoomIn = 1
+                                    handClosed = 0
+                                time.sleep(0.25)
+
+                            print handOpen
+                            print handClosed
+                            print zoomIn
+                            print zoomOut
+                            zoomIn = 0
+                            zoomOut = 0
+                            handClosed = 0
+
 
 			#msg = Radial()
                         #msg.radius = new_luko_dist
@@ -86,53 +113,33 @@ class cv:
 
                         #cv2.circle(frame,tuple(hull[minIndex,0,:]),3,(163,50,204),-1)
                         cv2.circle(frame, (cx1,cy1), 3, (0,0,255), -1)
+                        cv2.circle(frame, (cx2,cy2), 3, (0,0,255), -1)
                         #cv2.drawContours(frame,[approx],0,(0,255,0),1)
                         calc = True
-
+                        print calc
                     except Exception as e:
                         calc = False
                         print e
 
-                handDist = np.sqrt(np.power(dx, 2)+ np.power (dy, 2))
-                if handDist < 50: #if hand closed
-                    handClosed = 1
-                    if handOpen == 1: #if hand was open 500ms ago
-                        zoomOut = 1
-                        handOpen = 0
-                    sleep(500)
-
-                if handDist > 100: #if hand open    
-                    handOpen = 1
-                    if handClosed == 1: #if hand was closed 500ms ago
-                        zoomIn = 1
-                        handClosed = 0
-                    sleep(500)
-
-                print handOpen
-                print handClosed
-                print zoonIn
-                print zoomOut
-                zoomIn = 0
-                zoomOut = 0
-
+                print "about to show frame"
 		# Operations on the frame
                 skin = cv2.bitwise_and(frame, frame, mask = skinMask)
                 if len(contours) > 0 and calc:
                     cv2.circle(skin, (cx1,cy1), 3, (0,0,255))
-                    cv2.circle(skin, (cx2,cy2), 3, (0,0,255))
+                    #cv2.circle(skin, (cx2,cy2), 3, (0,0,255))
 		skin=cv2.flip(skin,1)
                 # Display frame in a window
                 cv2.imshow('Frame',frame)
                 cv2.imshow('Filtered Frame',skin)
                 #cv2.imshow('mask',skinMask)
-                #interrupt=cv2.waitKey(1)
+                interrupt=cv2.waitKey(1)
                 # Quit by pressing 'q'
-                #if  interrupt & 0xFF == ord('q'):
-                    #break
+                if  interrupt & 0xFF == ord('q'):
+                    break
 
 
 if __name__ == '__main__':
-    rospy.init_node('luko_cv', anonymous = True)
+    #rospy.init_node('luko_cv', anonymous = True)
     vision = cv()
     vision.run()
 
