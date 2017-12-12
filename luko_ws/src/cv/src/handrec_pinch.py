@@ -38,13 +38,13 @@ class cv:
         while(1): #not rospy.is_shutdown():
      # Clear the IO of the previous buffer
             stream = io.BytesIO()
-            handOpen = 0
-            handClosed = 0
+            lastOpen = 0
+            lastClosed = 0
             for raw in camera.capture_continuous(stream,format='jpeg'):
                 frame = cv2.imdecode(np.fromstring(stream.getvalue(),dtype=np.uint8),1)
                 stream.truncate()
                 stream.seek(0)
-                print "aaa"
+                #print "aaa"
                 # Convert to HSV colour space
                 frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
                 skinMask = cv2.inRange(frame_hsv, lower, upper)
@@ -82,30 +82,52 @@ class cv:
                             #cv2.drawContours(frame,[approx],0,(0,255,0),1)
                             zoomIn = 0
                             zoomOut = 0
+                            
                             handDist = np.sqrt(np.power(dx, 2)+ np.power (dy, 2))
                             if handDist < 100: #if hand closed
+                                print "hand close detected"
+                                lastClosed = time.time()
+                                #print lastClosed
+                                #print "lastcl - lastop =", lastClosed - lastOpen
+                                if lastClosed - lastOpen < 1:
+                                    print "zoomed in"
+
+                            if handDist > 150: #if hand open
+                                print "hand open detected"
+                                lastOpen = time.time()
+                                #print lastOpen
+                                if lastOpen - lastClosed < 1:
+                                    print "zoomed out"
+
+#                            curr = time.time()
+#                            if curr - lastOpen > 0.7
+
+                            '''
+                            if handDist < 100: #if hand closed
                                 handClosed = 1
+                                prevTime = time.time()
                                 if handOpen == 1: #if hand was open 500ms ago
                                     zoomOut = 1
                                     handOpen = 0
                                 #time.sleep(0.25)
+                                currentTime = time.time()
 
-                            if handDist > 1000: #if hand open    
+                            if handDist > 200: #if hand open
                                 handOpen = 1
                                 if handClosed == 1: #if hand was closed 500ms ago
                                     zoomIn = 1
                                     handClosed = 0
-                                time.sleep(0.25)
+                              #time.sleep(0.25)
 
                             print handOpen
                             print handClosed
                             print zoomIn
-                            print zoomOut
+                            Print zoomOut
                             zoomIn = 0
                             zoomOut = 0
                             handClosed = 0
-
-
+                            handOpen = 0
+'''
 			#msg = Radial()
                         #msg.radius = new_luko_dist
                         #msg.theta = theta
@@ -116,12 +138,12 @@ class cv:
                         cv2.circle(frame, (cx2,cy2), 3, (0,0,255), -1)
                         #cv2.drawContours(frame,[approx],0,(0,255,0),1)
                         calc = True
-                        print calc
+                        #print calc
                     except Exception as e:
                         calc = False
                         print e
 
-                print "about to show frame"
+                #print "about to show frame"
 		# Operations on the frame
                 skin = cv2.bitwise_and(frame, frame, mask = skinMask)
                 if len(contours) > 0 and calc:
