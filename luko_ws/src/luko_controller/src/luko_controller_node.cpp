@@ -39,9 +39,9 @@ public:
     // accept the new goal
     ROS_INFO("New goal!");
 
+    ros::Time start_time = ros::Time::now();
 
     trajectory_msgs::JointTrajectory msg = as_.acceptNewGoal()->trajectory;
-    
  
     std::vector<trajectory_msgs::JointTrajectoryPoint> trajectory_points = msg.points; 
 
@@ -49,7 +49,6 @@ public:
                                                                                                              
     ROS_INFO("The size of the vector = %lu", vectorSize);
 
-    ros::Time start_time = ros::Time::now();
  
     for (unsigned i=0; i<vectorSize; i++)
     {   
@@ -90,8 +89,11 @@ public:
         if (i < vectorSize - 1){
             ros::Time current_time = ros::Time::now();
             ros::Duration sleep_duration = start_time + msg.points[i+1].time_from_start - current_time; 	
+            float secs = sleep_duration.toSec();
+            ROS_INFO("%f: sleep duration", secs);
             sleep_duration.sleep();
-        }
+            //ros::Duration(0.15).sleep();
+	}
         fake_state.header.stamp = ros::Time::now();
 	fake_joint_state.publish(fake_state);
     }
