@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import rospy
-from cv.msg import Radial
+from mbed_interface.msg import JointAngles
+from sensor_msgs.msg import JointState
+from speech_recognition.msg import Intent
 import io
 import cv2
 import numpy as np
@@ -15,7 +17,7 @@ CAM_WIDTH = 320
 CAM_HEIGHT = 240
 LUKO_HEIGHT = 35
 LUKO_DISTANCE = 20
-SCALING_FACTOR_PHI = 1.0
+SCALING_FACTOR_PHI = 0.1
 SCALING_FACTOR_D = 0.1 # pixel to distance ratio
 
 # Initialise camera, allow it to warm up
@@ -29,92 +31,120 @@ upper = np.array([30,255,255], dtype=np.uint8)
 
 class cv:
     def __init__(self):
-        self.pub = rospy.Publisher('chatter', Radial, queue_size=10)
+        self.pub = rospy.Publisher('mbed/set_target_angle', JointAngles, queue_size=10)
+        self.sub = rospy.Subscriber('mbed/joint_states', JointState, self.callback, queue_size=10)
+        self.subAct = rospy.Subscriber('intent/movement', Intent, self.callback_act, queue_size=10)
+        self.current = [0 for i in range(5)]
+
+        self.pub_intent = rospy.Subscriber('intent/movement', Intent, self.callback_action, queue_size=10)
+        self.start = True
+
+    def callback(self, data):
+        self.current = np.array(data.position)
+
+    def callback_act(self, data):
+        action = data.action
+        if action == "target":
+            print
+        else:
+            pass
 
     def findDistance(self,A,B):
         return np.sqrt(np.power((A[0]-B[0]),2) + np.power((A[1]-B[1]),2))
 
+    def callback_action(self, data):
+        self.start = True
+
+    def filterSkin(self,frame):
+        # Convert to HSV colour space
+        frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        skinMask = cv2.inRange(frame_hsv, lower, upper)
+
+        # apply erosion, dilation and blurring to mask
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(7,7))
+        skinMask = cv2.erode(skinMask, kernel, iterations=1)
+        skinMask = cv2.dilate(skinMask, kernel, iterations=1)
+        skinMask = cv2.GaussianBlur(skinMask, (3,3), 0)
+        return skinMask
+
+    def getHull(self, cnts):
+        max_cnt = sorted(cnts,key = cv2.contourArea, reverse=True)[0]
+        M = cv2.moments(max_cnt)
+        cx = int(M['m10']/M['m00'])
+        cy = int(M['m01']/M['m00'])
+
+        peri = cv2.arcLength(max_cnt,True)
+        approx = cv2.approxPolyDP(max_cnt, 0.005*peri, True)
+        hull = cv2.convexHull(approx)
+
+        return (cx,cy), approx, hull
+
     def run(self):
         while not rospy.is_shutdown():
-     # Clear the IO of the previous buffer
+        # Clear the IO of the previous buffer
             stream = io.BytesIO()
             for raw in camera.capture_continuous(stream,format='jpeg'):
                 frame = cv2.imdecode(np.fromstring(stream.getvalue(),dtype=np.uint8),1)
                 stream.truncate()
                 stream.seek(0)
+                if self.start:
+                    skinMask = self.filterSkin(frame)
+                    # calculate centroid
+                    img, contours, _ = cv2.findContours(skinMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+                    if len(contours) > 0:
+                        try:
+                            (cx,cy), approx, hull = self.getHull(contours)
+                            minDist = np.inf
+                            minIndex = -1
+                            for i in range(len(hull)):
+                                cv2.circle(frame,tuple(hull[i,0,:]),3,(0,255,255),-1)
+                                dist = self.findDistance(hull[i,0,:], hull[(i+1)%len(hull),0,:])
+                                if minDist > dist:
+                                    minDist = dist
+                                    minIndex = i
 
-                # Convert to HSV colour space
-                frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-                skinMask = cv2.inRange(frame_hsv, lower, upper)
+                            offsetVec = hull[minIndex,0,:]-np.array([CAM_WIDTH/2, CAM_HEIGHT/2])
+                            print offsetVec*SCALING_FACTOR_D
+                            phi = np.arctan2(offsetVec[1],offsetVec[0])
+                            print np.degrees(phi)
 
-                # apply erosion, dilation and blurring to mask
-                kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(7,7))
-                skinMask = cv2.erode(skinMask, kernel, iterations=1)
-                skinMask = cv2.dilate(skinMask, kernel, iterations=1)
-                skinMask = cv2.GaussianBlur(skinMask, (3,3), 0)
+                            offsetDist = np.linalg.norm(offsetVec)*SCALING_FACTOR_D
 
-                # calculate centroid
-                img, contours, _ = cv2.findContours(skinMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-                if len(contours) > 0:
-                    try:
-                        max_cnt = sorted(contours,key = cv2.contourArea, reverse=True)[0]
-                        M = cv2.moments(max_cnt)
-                        cx = int(M['m10']/M['m00'])
-                        cy = int(M['m01']/M['m00'])
+                            # cosine rule
+                            theta = np.pi/2 - phi
+                            new_luko_dist = np.sqrt(offsetDist*offsetDist + LUKO_DISTANCE*LUKO_DISTANCE - 2*offsetDist*LUKO_DISTANCE*np.cos(theta))
+                            print theta, new_luko_dist
+                            delta_rot = np.arcsin(np.sin(theta)/new_luko_dist * offsetDist)
+                            delta_y = new_luko_dist - LUKO_DISTANCE
+                            print np.degrees(delta_rot),delta_y
 
-                        peri = cv2.arcLength(max_cnt,True)
-                        approx = cv2.approxPolyDP(max_cnt, 0.005*peri, True)
-                        hull = cv2.convexHull(approx)
-                        
-                        minDist = np.inf
-                        minIndex = -1
-                        for i in range(len(hull)):
-                            cv2.circle(frame,tuple(hull[i,0,:]),3,(0,255,255),-1)
-                            dist = self.findDistance(hull[i,0,:], hull[(i+1)%len(hull),0,:])
-                            if minDist > dist:
-                                minDist = dist
-                                minIndex = i
+                            msg = JointAngles()
+                            delta = np.degrees(theta)*SCALING_FACTOR_PHI
+                            msg.joints = self.current + np.array([delta, 0, 0, 0, 0])
+                            if abs(delta) < 2:
+                                self.start = False
+                            self.pub.publish(msg)
 
-                        offsetVec = hull[minIndex,0,:]-np.array([CAM_WIDTH/2, CAM_HEIGHT/2])
-                        print offsetVec*SCALING_FACTOR_D
-                        phi = np.arctan2(offsetVec[1],offsetVec[0])
-                        print np.degrees(phi)
+                            cv2.circle(frame,tuple(hull[minIndex,0,:]),3,(163,50,204),-1)
+                            cv2.circle(frame, (cx,cy), 3, (0,0,255), -1)
+                            cv2.drawContours(frame,[approx],0,(0,255,0),1)
 
-                        offsetDist = np.linalg.norm(offsetVec)*SCALING_FACTOR_D
-    #                    print offsetDist
-                        # cosine rule
-                        theta = np.pi/2 - phi
-                        new_luko_dist = np.sqrt(offsetDist*offsetDist + LUKO_DISTANCE*LUKO_DISTANCE - 2*offsetDist*LUKO_DISTANCE*np.cos(theta))
-                        print theta, new_luko_dist
-                        delta_rot = np.arcsin(np.sin(theta)/new_luko_dist * offsetDist)
-                        delta_y = new_luko_dist - LUKO_DISTANCE
-                        print np.degrees(delta_rot),delta_y
-                        
-                        msg = Radial()
-                        msg.radius = new_luko_dist
-                        msg.theta = theta
-                        self.pub.publish(msg)
+                            calc = True
+    
+                        except Exception as e:
+                            calc = False
+                            print e
 
-                        cv2.circle(frame,tuple(hull[minIndex,0,:]),3,(163,50,204),-1)
-                        cv2.circle(frame, (cx,cy), 3, (0,0,255), -1)
-                        cv2.drawContours(frame,[approx],0,(0,255,0),1)
+                    # Operations on the frame
+                    skin = cv2.bitwise_and(frame, frame, mask = skinMask)
+                    if len(contours) > 0 and calc:
+                        cv2.circle(skin, (cx,cy), 3, (0,0,255))
 
-                        calc = True
-
-                    except Exception as e:
-                        calc = False
-                        print e
-
-                # Operations on the frame
-                skin = cv2.bitwise_and(frame, frame, mask = skinMask)
-                if len(contours) > 0 and calc:
-                    cv2.circle(skin, (cx,cy), 3, (0,0,255))
-
-                skin=cv2.flip(skin,1)
+                    skin=cv2.flip(skin,1)
+                    cv2.imshow('Filtered Frame',skin)
 
                 # Display frame in a window
-                #cv2.imshow('Frame',frame)
-                cv2.imshow('Filtered Frame',skin)
+                cv2.imshow('Frame',frame)
                 #cv2.imshow('mask',skinMask)
                 interrupt=cv2.waitKey(1)
                 # Quit by pressing 'q'
@@ -132,7 +162,11 @@ class cv:
 if __name__ == '__main__':
     rospy.init_node('luko_cv', anonymous = True)
     vision = cv()
-    vision.run()
+    try:
+        vision.run()
+    except KeyboardInterrupt, TypeError:
+         camera.release()
+         cv2.destroyAllWindows()
 
 #try:
  #   while(1):
@@ -140,5 +174,3 @@ if __name__ == '__main__':
        
 #except KeyboardInterrupt, TypeError:
  #   # Release camera & end program
-  #  camera.release()
-   # cv2.destroyAllWindows()
