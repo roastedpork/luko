@@ -17,7 +17,7 @@ CAM_WIDTH = 320
 CAM_HEIGHT = 240
 LUKO_HEIGHT = 35
 LUKO_DISTANCE = 20
-SCALING_FACTOR_PHI = 0.1
+SCALING_FACTOR_PHI = 0.8
 SCALING_FACTOR_D = 0.1 # pixel to distance ratio
 
 # Initialise camera, allow it to warm up
@@ -34,6 +34,7 @@ class cv:
         self.pub = rospy.Publisher('mbed/set_target_angle', JointAngles, queue_size=10)
         self.sub = rospy.Subscriber('mbed/joint_states', JointState, self.callback, queue_size=10)
         self.subAct = rospy.Subscriber('intent/movement', Intent, self.callback_act, queue_size=10)
+        self.msg = None
         self.current = [0 for i in range(5)]
 
         self.pub_intent = rospy.Subscriber('intent/movement', Intent, self.callback_action, queue_size=10)
@@ -44,8 +45,9 @@ class cv:
 
     def callback_act(self, data):
         action = data.action
-        if action == "target":
-            print
+        if action == "target" and self.msg is not None:
+            print "callback_act", action, self.msg
+            self.pub.publish(self.msg)
         else:
             pass
 
@@ -119,11 +121,11 @@ class cv:
                             print np.degrees(delta_rot),delta_y
 
                             msg = JointAngles()
-                            delta = np.degrees(theta)*SCALING_FACTOR_PHI
+                            delta = -np.degrees(delta_rot)*SCALING_FACTOR_PHI
                             msg.joints = self.current + np.array([delta, 0, 0, 0, 0])
                             if abs(delta) < 2:
                                 self.start = False
-                            self.pub.publish(msg)
+                            self.msg = msg
 
                             cv2.circle(frame,tuple(hull[minIndex,0,:]),3,(163,50,204),-1)
                             cv2.circle(frame, (cx,cy), 3, (0,0,255), -1)
