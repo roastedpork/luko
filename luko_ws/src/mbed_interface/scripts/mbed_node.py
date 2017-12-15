@@ -8,6 +8,19 @@ from std_msgs.msg import Header
 
 hex = lambda x : '0'<=x<='9' or 'a'<=x<='f'
 
+
+class MABuffer:
+    def __init__(self, period = 5):
+        self.readings = [0 for i in range(period)]
+        self.index = 0
+        self.period = period
+
+    def update(self, reading):
+        self.readings[self.index] = reading
+        self.index = (self.index + 1) % self.period
+    def value(self):
+        return int(round(sum(self.readings)/float(self.period)))
+
 class mbed_interface:
     def __init__(self):
         #self.pub = rospy.Publisher("mbed/get_current_angle",JointAngles, queue_size=10)
@@ -24,6 +37,7 @@ class mbed_interface:
 	print "Serial Connection: "+ str(self.serial.isOpen())
 	self.serial.flushInput()
 	self.serial.flushOutput()
+        self.buffers = [MABuffer(5) for i in range(5)]
 
     def readSerialIn(self,str):
         try:
@@ -37,20 +51,19 @@ class mbed_interface:
     def callback(self,ros_data):
            
             ### read target_angle msg from callback ###
-            target = [int(round(np.degrees(j))) for j in ros_data.joints]
+            target = [int(round(j)) for j in ros_data.joints]
+            '''
             target[0] = target[0]+66
             target[1] = target[1]+50
             target[2] = target[2]+60
             target[3] = target[3]+65
-            target[4] = target[4]+86
+            target[4] = target[4]+86'''
 	    rospy.loginfo("New target: " + ", ".join([str(i) for i in target]))
             msg = '<' + ''.join([format(j,'02x') for j in target]) + '>'
             self.serial.write(msg)
             rospy.loginfo(msg)
     def run(self):
-        r = rospy.Rate(10)
-        pub = rospy.Publisher('joint_states', JointState, queue_size=10)
-        rospy.init_node('joint_state_publisher')
+        r = rospy.Rate(40)
 
         while not rospy.is_shutdown():
             ### create current_angle msg and publish ###
@@ -59,11 +72,16 @@ class mbed_interface:
             msg = JointState()
             joints = self.readSerialIn(self.serial.readline())
             self.serial.flushInput() # we want to get the latest values
+           
+            for buffer,reading in zip(self.buffers,joints):
+                buffer.update(reading)
 	    
+
             msg.header = Header()
             msg.header.stamp = rospy.Time.now()
-            msg.name = ['cylinder_joint', 'low_joint0', 'low_joint1', 'low_joint2', 'up_joint0', 'up_joint1', 'up_joint2', 'head_bearing_link', 'head_to_lamp']
-            msg.position = [joints[0], joints[1], joints[1], -joints[1], joints[2], joints[2], -joints[2], joints[3], joints[4]]
+            msg.name = ['cylinder_joint', 'low_joint0', 'up_joint0', 'head_bearing_link', 'head_to_lamp']
+            msg.position = [buffer.value() for buffer in self.buffers ]
+            #msg.position = [joints[0], joints[1], joints[2], joints[3], joints[4]]
             #rospy.loginfo('[' + ", ".join([str(i) for i in msg.position]) + ']' )
             self.pub.publish(msg)
 	    r.sleep()

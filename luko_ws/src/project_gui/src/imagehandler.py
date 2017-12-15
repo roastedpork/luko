@@ -60,15 +60,16 @@ class ImageHandler(object):
 			rows, cols = size[0], size[1]
 		
 			# empirically obtained scaling factors
-			scaleC = 0.5
-			scaleR = 0.7	
+			scaleC = 2.5 #0.5
+			scaleR = 2.5 #0.7	
 
 			delC = int(scaleC*cols*(math.sin(math.radians(theta)))/2)
 			delR = int(rows*scaleR*math.sin(math.radians(theta)))
 
 			# Generate map matrix
 			pts1 = np.float32([[0,0],[cols,0],[cols,rows],[0,rows]])			# src
-			pts2 = np.float32([[delC,0],[cols-delC,0],[cols,rows-delR],[0,rows-delR]])	# dst
+			#pts2 = np.float32([[delC,0],[cols-delC,0],[cols,rows-delR],[0,rows-delR]])	# dst
+			pts2 = np.float32([[0,0],[cols,0],[cols-delC,rows-delR],[delC,rows-delR]])	# dst
 			M = cv2.getPerspectiveTransform(pts1,pts2)
 
 			# Write to buffer

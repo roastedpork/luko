@@ -13,10 +13,11 @@ from imagehandler import ImageHandler
 from std_msgs.msg import String, Bool
 from speech_recognition.msg import Intent
 from mbed_interface.msg import JointAngles
+from sensor_msgs.msg import JointState
 
 # dimension of the display
-screen_cols = 1080 #1920 #1182
-screen_rows = 1920 #1080 #624
+screen_cols = 624 #1920 #1182
+screen_rows = 1182 #1080 #624
 
 
 
@@ -33,28 +34,36 @@ class ScreenHandler(object):
         # initialize state variables
         self.clock = pygame.time.Clock()
         self.info = pygame.display.Info()
-        self.image = None #ImageHandler('/home/pi/searchRes/dogs_black_background_04.jpg')
+        self.image = ImageHandler('/home/pi/searchRes/cat_04.jpg')
         self.rot =  0
-        self.theta = 45
+        self.theta = 0
 
         # initialize pubsub topics
-        self.sub_request = rospy.Subscriber("search_images/query", Intent, self.callback_request, queue_size = 1)
-        self.sub_status = rospy.Subscriber("search_images/status_flag", Bool, self.callback_status, queue_size = 1)
-        self.sub_angles = rospy.Subscriber("mbed/get_current_angle", JointAngles, self.callback_angles, queue_size = 1)
+        #self.sub_request = rospy.Subscriber("search_images/query", Intent, self.callback_request, queue_size = 10)
+        self.sub_status = rospy.Subscriber("search_images/status_flag", Intent, self.callback_status, queue_size = 10)
+        self.sub_angles = rospy.Subscriber("mbed/joint_states", JointState, self.callback_angles, queue_size = 10)
         self.query = None
+        self.readings_rot = [0,0,0,0,0,0,0,0,0,0]
+        self.readings_theta = [0,0,0,0,0,0,0,0,0,0]
+        self.index_rot = 0
+        self.index_theta = 0
 
     def callback_request(self,data):
         params = json.loads(data.params)
+        print params
         if data.action == 'image':
-            self.query = " ".join(params['image']) + "" if params['no_blk'] == "1" else ' black background'
-            
+            self.query = " ".join(params['image']) + ("" if params['no_blk'] == "1" else ' black background')
+            print "New query: " + self.query
+        elif data.action == 'clear_image':
+            self.image = None
 
     def callback_status(self,data):
+        print 'Ready to load image'
         exts = ['.jpg','.jpeg','.png','.gif']
-        prefix = self.query.replace(' ','_')
-        if data.data:
+        p = json.loads(data.params)
+        if p:
             ind = random.randint(0,4)
-            filepath = ['/home/pi/searchRes/' + prefix + '_%02d' %(ind) + ext for ext in exts]
+            filepath = ['/home/pi/searchRes/' + p['prefix'] + '_%02d' %(ind) + ext for ext in exts]
             for file in filepath:
                 try:
                     temp = ImageHandler(file)
@@ -64,8 +73,13 @@ class ScreenHandler(object):
 
     def callback_angles(self,data):
         # subscribed to "mbed/get_current_angles" topic
-        pass
-
+        self.readings_rot[self.index_rot] = data.position[0]-70
+        self.index_rot = (self.index_rot+1)%3
+        self.rot = sum(self.readings_rot)/3.0
+        self.readings_theta[self.index_theta] = 57-data.position[3]
+        self.index__theta = (self.index_theta+1)%3
+        self.theta = sum(self.readings_theta)/3.0
+        
     def run(self):
         r = rospy.Rate(30)
         try:
@@ -77,9 +91,12 @@ class ScreenHandler(object):
 
                 self.screen.fill([0,0,0])                    
                 if self.image is not None:
-                    self.image.rotate(self.rot)
-                    self.image.transform(self.theta)
-                    self.image.display(self.screen)
+                    try:
+                        self.image.rotate(self.rot)
+                        self.image.transform(self.theta)
+                        self.image.display(self.screen)
+                    except Exception as e:
+                        print e
                 pygame.display.update()
 
                 #self.theta = self.theta+3 if self.theta < 87 else 0

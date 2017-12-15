@@ -17,8 +17,8 @@ import json
 
 class SearchNode(object):
     def __init__(self):
-        self.sub = rospy.Subscriber("search_images/query", Intent, self.callback, queue_size = 1)
-        self.pub = rospy.Publisher("search_images/status_flag", Bool, queue_size = 1)
+        self.sub = rospy.Subscriber("search_images/query", Intent, self.callback, queue_size = 10)
+        self.pub = rospy.Publisher("search_images/status_flag", Intent, queue_size = 10)
 
         if os.path.isfile("/home/pi/searchRes/loaded.txt"):
             with open("/home/pi/searchRes/loaded.txt","r") as file:
@@ -26,8 +26,11 @@ class SearchNode(object):
         else:
             self.loaded = []
 
+        print "list of preloaded images: " + str(self.loaded)
+
     def callback(self,ros_data):
         params = json.loads(ros_data.params)
+        print params
         if ros_data.action == 'image':
             query_text = " ".join(params['image'])
             rospy.loginfo("searching for images of '%s'..." % (query_text))
@@ -82,11 +85,12 @@ class SearchNode(object):
                 if resp.data: 
                     self.loaded.append(prefix)
                     with open("/home/pi/searchRes/loaded.txt","w") as file:
-                        json.dump(self.loaded,file)
+                        json.dumps(self.loaded,file)
             else:
                 rospy.loginfo("Images of '%s' has previously been downloaded" % (query_text))
-                resp = Bool()
-                resp.data = True
+                resp = Intent()
+                resp.action = "image"
+                resp.params = json.dumps({'prefix':prefix})
                 self.pub.publish(resp)
 
 if __name__ == '__main__':
