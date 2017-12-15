@@ -1,0 +1,7 @@
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+Traceback (most recent call last):
+  File "/home/pi/luko/luko_ws/src/cv/src/handrec_v5.py", line 166, in <module>
+    rospy.init_node('luko_cv', anonymous = True)
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/client.py", line 336, in init_node
+    raise rospy.exceptions.ROSInitException("Failed to initialize time. Please check logs for additional details")
+rospy.exceptions.ROSInitException: Failed to initialize time. Please check logs for additional details
