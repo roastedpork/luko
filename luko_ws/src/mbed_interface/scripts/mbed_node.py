@@ -49,6 +49,8 @@ class mbed_interface:
             rospy.loginfo(msg)
     def run(self):
         r = rospy.Rate(10)
+        pub = rospy.Publisher('joint_states', JointState, queue_size=10)
+        rospy.init_node('joint_state_publisher')
 
         while not rospy.is_shutdown():
             ### create current_angle msg and publish ###
