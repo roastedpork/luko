@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from PIL import Image
 import numpy as np
 from led_driver.msg import LedArray
@@ -24,10 +26,18 @@ def bmp2rgb(img_file):
     return r,g,b
 
 if __name__ == "__main__":
+    rospy.init_node('bmp2led', anonymous=True)
     msg = LedArray()
     msg.op = 'raw'
     msg.nPixels = 64
     msg.r,msg.g,msg.b = bmp2rgb('bmps/heart.bmp')
+    pub = rospy.Publisher('send_image', LedArray, queue_size=10)
+    r = rospy.Rate(10)
+    sent = False
+    while not rospy.is_shutdown():
+        pub.publish(msg)
+        r.sleep()
+        sent = True
 
-    pub = rospy.Publisher('led_driver/LedArray', LedArray, queue_size=10)
-    pub.publish(msg)
+        if sent:
+            break

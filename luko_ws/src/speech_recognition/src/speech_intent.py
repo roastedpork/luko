@@ -86,6 +86,10 @@ class speech_recognition:
         msg.params = json.dumps(params)
         publisher = self.pub.get(topic[0],self.pub['generic'])
         publisher.publish(msg)
+        if topic != "project":
+            clearMsg = Intent()
+            clearMsg.action = "clear_image"
+            self.pub["project"].publish(clearMsg)
 
     def hotwordCallback(self, mic, doa):
 
@@ -108,6 +112,8 @@ class speech_recognition:
                 started = True
                 timeSpeak = time()
             elif not started and (currTime-timeStart) > LISTEN_TIMEOUT:
+
+                self.filterPublish("generic.unknown","")
                 print("Silent for too long, returning")
                 return
             elif (started and (silenceConf == 0) and (currTime-timeSpeak)>MIN_RECORD_TIME) \
@@ -130,6 +136,9 @@ class speech_recognition:
                     if params != '{}':
                         print "params: \n{}".format(json.dumps(params))
                     self.filterPublish(action,params)
+                else:
+                    print("speech recognition cannot recognise speech")
+                    self.filterPublish("generic.unknown","")
                 return
             else:
                 frames.append(chunk[0::CHANNELS].tostring())
