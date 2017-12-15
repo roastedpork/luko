@@ -1,13 +1,22 @@
 #!/usr/bin/env python
+import sys
 import rospy
 import operator
 from sensor_msgs.msg import JointState
 
+try:
+    flags=[int(i) for i in sys.argv[1:]]
+    filename = "recording.txt"
+except:
+    filename = sys.argv[1]
+    flags=[int(i) for i in sys.argv[2:]]
+
 class record:
     def __init__(self):
         self.sub = rospy.Subscriber("mbed/joint_states", JointState, self.callback, queue_size=10)
-        self.file = open("recording.txt", "w")
+        self.file = open(filename, "w")
         self.ref = []
+        self.file.write(str(flags)+ "\n")
 	print "Recording..."
 
     def callback(self, ros_data):

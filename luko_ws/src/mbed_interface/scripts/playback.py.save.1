@@ -13,11 +13,11 @@ class playback:
         self.sub = rospy.Subscriber("mbed/joint_states", JointState, self.callback, queue_size=10)
         self.pub = rospy.Publisher("mbed/set_target_angle", JointAngles, queue_size=10)
         
-        self.pub_action = rospy.Subscriber("playback/action", String, self.callback_action, queue_size = 10)
+        #self.pub_action = rospy.Subscriber("playback/action", String, self.callback_action, queue_size = 10)
         self.moved = False # move flag 
         self.ref = [70,75,40,50,75]
         self.path = [] 
-        self.speed = 40 # default 20hz
+        self.speed = 20 # default 20hz
 
     def callback(self, ros_data):
         self.ref = np.array(map(int, ros_data.position))
@@ -32,7 +32,7 @@ class playback:
         read_mask = False
         temp = []
         mask = np.array([1,1,1,1,1])
-        with open(action) as f:
+        with open(action + ".txt") as f:
             for line in f:
                 if not read_mask:
                     self.mask = np.array(json.loads(line))
@@ -70,13 +70,9 @@ class playback:
             
                 print "Performed action"
 
-    def runOnce(self,action):
-        # Rewritten with np arrays, because fuck functional programming
-        read_mask = False
-        temp = []
+    def runOnce(self, action):
         mask = np.array([1,1,1,1,1])
-        r = rospy.Rate(self.speed)
-        with open(action) as f:
+        with open(action + ".txt") as f:
             for line in f:
                 if not read_mask:
                     self.mask = np.array(json.loads(line))
@@ -91,22 +87,15 @@ class playback:
                     temp.append(point)
 
         # Start with first point
-        msg = JointAngles()
+        msg= JointAngles()
         msg.joints = list(temp[0])
         self.pub.publish(msg)
-        r.sleep() 
         # Interpolate between each listed point
         for i in range(1,len(temp)):
             mid = (temp[i] + temp[i-1])/2
-            msg.joints = list(mid)
-            self.pub.publish(msg)
-            r.sleep()
-          
-            msg.joints = temp[i]
-            self.pub.publish(msg)
-            r.sleep()
-
-        print "Performed action: " + action
+            self.path.append(mid)
+            self.path.append(temp[i])
+        self.moved = False
 
 
 if __name__ == '__main__':
