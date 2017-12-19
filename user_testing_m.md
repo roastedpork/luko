@@ -29,3 +29,4 @@ _test metrics, experiment yet to be defined_
 Test setup   | Control setup
 ------------ | -------------
 Luko with sound engine and voice input nodes active | Amazon Echo Dot
+
