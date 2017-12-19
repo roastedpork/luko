@@ -2,11 +2,13 @@
 *to be updated throughout the user testing process*
 
 An overview on:
-* Participant selection
 * Hypotheses to test
   * Experiment to perform
   * Corresponding control experiment
-* Experiment metrics (qualitative/quantitative)
+  * Experiment metrics (qualitative/quantitative)
+* Participant selection
+* Test times/logistics
+
 
 ## Hypothesis #1: Gestures to move Luko's gaze aids productivity
 * Prove that manually moving a lamp across areas of a desk is cumbersome
@@ -48,3 +50,13 @@ Luko with projection node active | iPad with 'hey siri' active
 **Test Metrics:**
 * Efficacy scores for each task
 * Measure number of subtasks completed within a set time (~2mins)
+
+## Hypothesis #4
+_Luko mainly expresses through motion, is this less or more distracting than an inanimate voice-based system? 
+If so, does the added emotional visual interaction compensate for the distraction?_
+* _design a test to possibly explore this_
+
+
+## Participant Selection
+* Pitch Luko to visitors willing to spend some time testing out Luko 
+	* _Science Museum/Exhibition Road?_
