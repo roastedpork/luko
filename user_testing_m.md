@@ -8,13 +8,22 @@ An overview on:
   * Corresponding control experiment
 * Experiment metrics (qualitative/quantitative)
 
-## Hypothesis: Gestures to move Luko's gaze aids productivity
+## Hypothesis #1: Gestures to move Luko's gaze aids productivity
 * Prove that manually moving a lamp across areas of a desk is cumbersome
-* Then prove that this is solved with gestures
+* Then prove that this is solved with the point to location feature
 
-Experiment:
+**Experiment:**
 * A dynamic task switching between 2 laptops/notebooks placed ~1ft away from each other (tune size)
 * Measure number of subtasks completed within a set time (~2mins) - constrain task such that lamp must face workspace
+
 Test setup   | Control setup
 ------------ | -------------
-Luko with point to location CV node active | A standard desk lamp - 5dof or with flexible neck joint <br> _Possibly Luko with unlocked joints - must be treated with care_
+Luko with point to location node active <br> `rosrun cv handrec_v5.py` <br>| A standard desk lamp - 5dof or with flexible neck joint <br> _Possibly Luko with unlocked joints - but must be treated with care_
+
+
+## Hyptothesis #2: Non-verbal interaction improves over verbal interaction
+_test metrics, experiment yet to be defined_
+
+Test setup   | Control setup
+------------ | -------------
+Luko with sound engine and voice input nodes active | Amazon Echo Dot
