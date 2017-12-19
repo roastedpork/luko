@@ -9,6 +9,7 @@ An overview on:
 * Participant selection
 * Test times/logistics
 
+<br>
 
 ## Hypothesis #1: Gestures to move Luko's gaze aids productivity
 * Prove that manually moving a lamp across areas of a desk is cumbersome
@@ -27,12 +28,16 @@ Luko with point to location node active <br> `rosrun cv handrec_v5.py` <br>| A s
 * Efficacy scores for each task
 * Measure number of subtasks completed within a set time (~2mins)
 
+<br>
+
 ## Hyptothesis #2: Non-verbal interaction improves over verbal interaction
 _test metrics, experiment yet to be defined_
 
 Test setup   | Control setup
 ------------ | -------------
 Luko with sound engine and voice input nodes active | Amazon Echo Dot
+
+<br>
 
 ## Hypothesis #3: Embedded projection system increases productivity
 * Prove the need for a built-in pico projector
@@ -51,11 +56,14 @@ Luko with projection node active | iPad with 'hey siri' active
 * Efficacy scores for each task
 * Measure number of subtasks completed within a set time (~2mins)
 
+<br>
+
 ## Hypothesis #4
 _Luko mainly expresses through motion, is this less or more distracting than an inanimate voice-based system? 
 If so, does the added emotional visual interaction compensate for the distraction?_
 * _design a test to possibly explore this_
 
+<br>
 
 ## Participant Selection
 * Pitch Luko to visitors willing to spend some time testing out Luko 
