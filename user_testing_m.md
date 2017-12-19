@@ -15,13 +15,15 @@ An overview on:
 **Experiment:**
 * A dynamic task switching between 2 laptops/notebooks placed ~1ft away from each other (tune size)
 	* constrain task such that lamp must face workspace
+	* _exact task yet to be defined_
 
 Test setup   | Control setup
 ------------ | -------------
 Luko with point to location node active <br> `rosrun cv handrec_v5.py` <br>| A standard desk lamp - 5dof or with flexible neck joint <br> _Possibly Luko with unlocked joints - but must be treated with care_
 
 **Test Metrics:**
-* Measure number of subtasks completed within a set time (~2mins) 
+* Efficacy scores for each task
+* Measure number of subtasks completed within a set time (~2mins)
 
 ## Hyptothesis #2: Non-verbal interaction improves over verbal interaction
 _test metrics, experiment yet to be defined_
@@ -30,3 +32,19 @@ Test setup   | Control setup
 ------------ | -------------
 Luko with sound engine and voice input nodes active | Amazon Echo Dot
 
+## Hypothesis #3: Embedded projection system increases productivity
+* Prove the need for a built-in pico projector
+
+**Experiment:**
+* A suite of tasks which require images to be displayed on the desk
+	* eg. drawing an image
+	* _more tasks to be defined - some which exploit the fact that a projector can display directly atop a working surface_
+
+Test setup   | Control setup
+------------ | -------------
+Luko with projection node active | iPad with 'hey siri' active
+
+
+**Test Metrics:**
+* Efficacy scores for each task
+* Measure number of subtasks completed within a set time (~2mins)
