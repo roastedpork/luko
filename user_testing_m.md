@@ -1,3 +1,12 @@
+# Main hypotheses 
+* Emotional rapport (we do NOT attempt to prove that this is necessary)
+	* Movement - Luko's form and motion allows users to build rapport with Luko on an emtional level
+	* Sounds - Luko's non-verbal sounds allows users to build rapport with Luko on an emtional level
+
+* Productivity
+	* Movement - Luko's 
+    * Sounds
+
 # User Testing - Methodology
 *to be updated throughout the user testing process*
 
@@ -14,19 +23,18 @@ An overview on:
 ## Hypothesis #1: Gestures to move Luko's gaze aids productivity
 * Prove that manually moving a lamp across areas of a desk is cumbersome
 * Then prove that this is solved with the point to location feature
+* A dynamic task switching between 2 laptops/notebooks placed ~1ft away from each other (tune size)
 
 **Experiment:**
-* A dynamic task switching between 2 laptops/notebooks placed ~1ft away from each other (tune size)
-	* constrain task such that lamp must face workspace
-	* _exact task yet to be defined_
+* User performs simple maths calculations on 2 notebooks 1ft away, switching between them for each calculation
+* Sensor (phone's ambeint light value was used) value to exceed threshold for the lamp to be determined as having moved to the notebook
 
 Test setup   | Control setup
 ------------ | -------------
 Luko with point to location node active <br> `rosrun cv handrec_v5.py` <br>| A standard desk lamp - 5dof or with flexible neck joint <br> _Possibly Luko with unlocked joints - but must be treated with care_
 
 **Test Metrics:**
-* Efficacy scores for each task
-* Measure number of subtasks completed within a set time (~2mins)
+* Number of maths problems performed in a 2-minute span
 
 <br>
 
@@ -36,6 +44,10 @@ _test metrics, experiment yet to be defined_
 Test setup   | Control setup
 ------------ | -------------
 Luko with sound engine and voice input nodes active | Amazon Echo Dot
+
+<br>
+
+## Hypothesis #2: Movement can establish emotional rapport with a user unobtainable by speech
 
 <br>
 
@@ -68,3 +80,34 @@ If so, does the added emotional visual interaction compensate for the distractio
 ## Participant Selection
 * Pitch Luko to visitors willing to spend some time testing out Luko 
 	* _Science Museum/Exhibition Road?_
+
+
+
+
+
+##REPORT
+After the building of Luko, a user-testing phase was performed to verfify Luko's efficacy with respect to the original hypotheses.
+
+Hyp1: Verified, gestures improve on physical movement significantly.
+On the x users tested, the number of 'switches' performed across the given desk space was on average 1.5x more than in the case with a standard hinged desk lamp.
+
+Hyp2:
+
+
+
+
+##Conceptualization of Luko:
+--	Luko to replace standard desk lamps
+
+	-Movement
+    	-Emotional rapport
+        -Productivity
+    -Sound
+    	-Emotional rapport
+        
+	-Emotional rapport (we do NOT attempt to prove that this is necessary)
+    	-Movement
+        -Sounds
+    -Productivity
+    	-Movement
+        -Sounds
